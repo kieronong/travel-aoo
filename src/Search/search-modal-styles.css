@@ -1,0 +1,103 @@
+/* styles.css */
+
+/* Style for the modal background */
+.search-modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Faded background */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Style for the modal container */
+.search-modal {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  display: none;
+  width: 60%; /* Set your desired width for the modal */
+  max-width: 800px; /* Set a maximum width to prevent it from becoming too wide */
+}
+
+/* Style for the days and price fields */
+.search-field {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* Animation for showing the modal */
+.show {
+  display: block;
+  animation: slide-in 0.5s forwards;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translate(0, -50%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+
+
+/* Style for the Autosuggest container */
+.react-autosuggest__container {
+  position: relative; /* Position relative is required for absolute positioning of the suggestions */
+}
+
+/* Style for the Autosuggest suggestions container */
+.react-autosuggest__suggestions-container {
+  position: absolute; /* Position suggestions absolutely to overlap other elements */
+  z-index: 1000; /* A high z-index value to place the suggestions on top */
+  width: 100%; /* Make sure the suggestions container spans the full width */
+}
+
+/* Style for the Autosuggest suggestions list */
+.react-autosuggest__suggestions-list {
+  list-style: none; /* Remove default list styles */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+}
+
+/* Style for individual suggestions in the list */
+.react-autosuggest__suggestion {
+  padding: 10px;
+  background-color: #ccc; /* Background color for suggestions */
+  color: #000;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Add a smooth transition effect */
+}
+
+/* Highlighted suggestion */
+.react-autosuggest__suggestion--highlighted {
+  background-color: #f0f0f0; /* Highlighted suggestion background color */
+}
+
+/* Style for the search button */
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Style for input fields and select */
+input, select {
+  width: 45%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}

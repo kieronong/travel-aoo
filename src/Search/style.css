@@ -1,0 +1,86 @@
+/* styles.css */
+
+
+/* Style for the search page container */
+.search-page {
+  position: relative; /* Relative positioning for child elements */
+}
+
+/* Style for the modal background overlay */
+.search-modal {
+  position: fixed; /* Fixed positioning for overlay */
+  top: 30%; /* Center vertically */
+  left: 20%;
+  transform: translate(-50%, -50%); /* Center the modal */
+  width: 50%;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  z-index: 1000;
+}
+
+/* Style for the background when modal is present */
+.search-page-modal-present {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  backdrop-filter: blur(4px); /* Apply a blur effect */
+  z-index: 999; /* Position this just below the modal */
+}
+
+
+/* Style for the search bar container */
+.search-bar-container {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Style for preset locations */
+  .preset-locations {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .wrapper {
+    display: flex;
+    flex-direction: column; /* Display children vertically */
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center children vertically */
+  }
+  
+  .preset-location {
+    width: 250px; /* Set your desired width for the boxes */
+    height: 200px; /* Set your desired height for the boxes */
+    margin: 0 10px;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    color: #fff; /* Text color */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better visibility */
+    font-size: 18px; /* Font size for the location name */
+  }
+  
+  /* Style for labels */
+  label {
+    display: block;
+    font-weight: bold;
+  }
+
+  input {
+    justify-content: center;
+    margin-bottom: 10px;
+    padding:5px;
+    }
+  
+  
