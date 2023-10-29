@@ -133,7 +133,7 @@ class SearchBar extends Component {
             alt="star 1"
           />
           <motion.img 
-            style={{ position: 'absolute', top: '370px', left: '1050px' }}
+            style={{ opacity: this.state.showSearchModal ? 0 : 1, pointerEvents: this.state.showSearchModal ? 'none': 'auto' , position: 'absolute', top: '370px', left: '1050px' }}
             width = '60'
             height = '60'
             src={plane}
@@ -203,7 +203,7 @@ class SearchBar extends Component {
             alt="star 1"
           />
           <motion.img 
-            style={{ position: 'absolute', top: '360px', left: '800px' }}
+            style={{ opacity: this.state.showSearchModal ? 0 : 1, pointerEvents: this.state.showSearchModal ? 'none': 'auto', position: 'absolute', top: '360px', left: '800px' }}
             width = '50'
             height = '50'
             src={clouds}
@@ -274,9 +274,8 @@ class SearchBar extends Component {
           />
         <TypeAnimation
           sequence={[
-            // Same substring at the start will only be typed out once, initially
             'my next dream vacation in  . . .',
-            3000, // wait 1s before replacing "Mice" with "Hamsters"
+            3000, 
             'my next dream vacation in new york 🗽',
             2000,
             'my next dream vacation in london 🎡',
