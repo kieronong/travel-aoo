@@ -24,7 +24,7 @@ export const get_attractions = query({
       .filter((q) => q.lte(q.field("price_point"), args.price_high))
       .filter((q) => q.gte(q.field("price_point"), args.price_low))
       .collect();
-      // do something with `tasks`
+      // do something with `tasks`aa
       return places
     },
   });
@@ -85,7 +85,6 @@ export const get_location = query({
       prompt += `\n\nI do not want to go to:\n\n${args.disliked.join(", ")}.\n\nI do want to go to:\n\n${args.liked.join(", ")}.\n\n\n\n\n`;
       prompt += `Given this, Provide me 3 different lists of locations for a travel itinerary. Each itinerary should have ${args.days * 3} or more locations, and must not contain the locations I don't want to go to. The list must contain only location names, are numbered, and there must be at least ${args.days * 3} locations.`;
   
-      console.log(prompt)
       // Step 2: Use this prompt with GPT (this step is not provided here since the exact details depend on how you've integrated GPT with your backend)
       const options = {
         method: 'POST',
@@ -123,8 +122,6 @@ export const get_location = query({
             parsedResults.every(list => list.length === args.days * 3)) {
           isParsedResultsValid = true;
         }
-        console.log(parsedResults)
-        console.log("valid", isParsedResultsValid)
       } while (!isParsedResultsValid);
       
       const results: ItineraryItem[][] = []
@@ -157,9 +154,10 @@ export const get_location = query({
   type ItineraryItem = {
     name: string;
     description: string;
-    image: string;
+    imageURL: string;
     day: string;
     time: string;
+    category: string;
   };
 
   function extractName(input: string): string {
@@ -238,12 +236,14 @@ export const get_location = query({
         if (!attraction) continue;
         console.log(name, attraction)
   
+        if (attraction.length === 0) continue;
         output.push({
           day: `Day ${day}`,
           time: timeWindows[timeIndex](),  // Using the random time generation function here
           name: attraction[0].name,
-          image: attraction[0].photo_url,
+          imageURL: attraction[0].photo_url,
           description: attraction[0].description,
+          category: attraction[0].category,
         });
   
         timeIndex++;

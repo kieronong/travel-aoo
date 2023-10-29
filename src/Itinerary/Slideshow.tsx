@@ -10,7 +10,7 @@ interface Event {
     imageURL: string;
     name: string;
     description: string;
-    day: number;
+    day: string;
     time: string;
 }
 
@@ -55,13 +55,14 @@ const SlideCard = styled.div<{ backgroundImage?: string, index: number, total: n
 
 
 const Slideshow: React.FC<SlideshowProps> = ({ eventList }) => {
-    const total = eventList.length;
+    // const total = eventList.length;
     return (
-        <CardContainer>
-            {eventList?.slice(0, 10).map((event, index) => (
-                <SlideCard backgroundImage={event.imageURL} index={index} total={total} key={index}/>
-            ))}
-        </CardContainer>
+        <></>
+        // <CardContainer>
+        //     {eventList?.slice(0, 10).map((event, index) => (
+        //         <SlideCard backgroundImage={event.imageURL} index={index} total={total} key={index}/>
+        //     ))}
+        // </CardContainer>
     );
 };
 

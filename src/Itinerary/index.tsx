@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import ItineraryLoading from './ItineraryLoading';
-import {useQuery, useConvex } from "convex/react";
+import {useAction, useConvex } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import Slideshow from './Slideshow';
 import { useTypingEffect } from "./hooks/typing_hook";
@@ -32,7 +32,7 @@ interface Event {
     name: string;
     description: string;
     category: string;
-    day: number;
+    day: string;
     time: string;
 }
 
@@ -78,28 +78,15 @@ const Description = styled.p``;
 const Itinerary: React.FC<ItineraryProps> = ({ onNextStep, location, days, priceRange, acceptedCards, rejectedCards }) => {
 
     const [isLoading, setIsLoading] = React.useState(true);
-    const [eventList, setEventList] = React.useState<Event[]>([]);
-    const convex = useConvex();
+    const [eventList, setEventList] = React.useState<Event[][]>([]);
+    const getItinerary = useAction(api.myFunctions.generate_itinerary);
     const title = useTypingEffect("Your Adventure Starts Here", 100);
 
     React.useEffect(() => {
         const fetchCards = async () => {
             try {
-                // TODO: Actually query the API
-                const data = await convex.query(api.backend_api.get_attractions,{city: "Tokyo", price_high: 2, price_low: 0 })
-                let count = 0;
-                const times = ["10:00 AM", "12:00 PM", "2:00 PM"]
-                const newEventList = data.map((attraction) => {
-                    count += 1;
-                    return {
-                        imageURL: attraction.photo_url,
-                        name: attraction.name,
-                        description: attraction.description,
-                        category: attraction.category,
-                        day: count / 3,
-                        time: times[count % 3],
-                    }
-                }).splice(0, 10)
+                const data = await getItinerary({city: "New York", price_high: 2, price_low: 0, days: 3, liked: [], disliked: [] })
+                const newEventList = data;
                 setEventList(newEventList)
                 setIsLoading(false);
             } catch (error) {
@@ -108,17 +95,6 @@ const Itinerary: React.FC<ItineraryProps> = ({ onNextStep, location, days, price
             setIsLoading(false);
         };
         fetchCards();
-
-        const test = async () => {
-            try {
-                console.log("Hi")
-                const data = await convex.action(api.myFunctions.generate_itinerary,{city: "New York", price_high: 2, price_low: 0, days: 3, liked: [], disliked: [] })
-                console.log(data)
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        test()
     }, [])
 
     return (
@@ -129,25 +105,23 @@ const Itinerary: React.FC<ItineraryProps> = ({ onNextStep, location, days, price
                 <TimelineContainer>
                     <Title >{title}</Title>
                     <VerticalTimeline lineColor = 'rgb(33, 158, 188)'>
-                        {eventList.map((event, index)=>(
-                            <VerticalTimelineElement
-                            key = {index}
-                            className="vertical-timeline-element--work"
-                            contentStyle={{ background: 'rgb(127, 161, 163)', color: '#fff' }}
-                            contentArrowStyle={event.category === 'tourist_attraction' ? { borderRight: '7px solid  #64C3CE' } : { borderRight: '7px solid  #FF890B' } }
-                            date="2011 - present"
-                            iconStyle={event.category === 'tourist_attraction' ? { background: '#64C3CE', color: '#fff' , border: '1px dotted rgb (2, 48, 71'}: { background: '#FF890B', color: '#fff', border: '1px dotted rgb(251, 133, 0)' }}
-                            icon={event.category === 'tourist_attraction' ? <AttractionsIcon /> : <LocalDiningIcon />}
-
-                        >
-                            <Time>{event.time}</Time>
-                            <EventTitle>{event.name}</EventTitle>
-                            <Description>{event.description}</Description>
-                        </VerticalTimelineElement>
-
-                        ))}
-
-                      
+                        {eventList?.map((day, index)=>(
+                            day.map((event, index)=>(
+                                <VerticalTimelineElement
+                                key = {index}
+                                className="vertical-timeline-element--work"
+                                contentStyle={{ background: 'rgb(127, 161, 163)', color: '#fff' }}
+                                contentArrowStyle={event.category === 'tourist_attraction' ? { borderRight: '7px solid  #64C3CE' } : { borderRight: '7px solid  #FF890B' } }
+                                date="2011 - present"
+                                iconStyle={event.category === 'tourist_attraction' ? { background: '#64C3CE', color: '#fff' , border: '1px dotted rgb (2, 48, 71'}: { background: '#FF890B', color: '#fff', border: '1px dotted rgb(251, 133, 0)' }}
+                                icon={event.category === 'tourist_attraction' ? <AttractionsIcon /> : <LocalDiningIcon />}
+    
+                            >
+                                <Time>{event.time}</Time>
+                                <EventTitle>{event.name}</EventTitle>
+                                <Description>{event.description}</Description>
+                            </VerticalTimelineElement>))))
+                            }                      
                         </VerticalTimeline>
                 </TimelineContainer>
             </ScreenContainer>
