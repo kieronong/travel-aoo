@@ -27,42 +27,51 @@ const CardContainer = styled.div`
 
 const totalDuration = 5; // total duration of the animation, you can adjust this value
 
-const slideAnimation = (index: number, total: number) => keyframes`
-    0%, ${(100 / total) * index}% {
+const slideAnimation = () => keyframes`
+    0% {
         opacity: 1;
-        z-index: 2;
-    }
-    ${(100 / total) * (index + 1)}% {
-        opacity: 0;
-        z-index: 1;
     }
     100% {
         opacity: 0;
-        z-index: 1;
     }
 `;
 
-const SlideCard = styled.div<{ backgroundImage?: string, index: number, total: number }>`
+const SlideCard = styled.div<{ backgroundImage?: string, index: number }>`
     width: 100%;
     height: 100%;
     background-size: cover;
     background-image: ${({ backgroundImage }) => `url(${backgroundImage})`};
     position: absolute;
-    animation: ${({ index, total }) => slideAnimation(index, total)} ${totalDuration}s linear infinite;
-    animation-delay: ${({ index, total }) => `${(totalDuration / total) * index}s`}; // delay based on index
+    animation: ${() => slideAnimation()} 0.1s linear forwards 1;
+    z-index: ${({ index }) => 10 - index };
+    animation-delay: ${({ index }) => `${2 + 0.5 * index}s`}; // delay based on index
+`;
+
+const Title = styled.h1`
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 30;
+    font-size: 3em;
+    color: white;
+    text-shadow: h-shadow v-shadow blur-radius 
+    font-family: 'Montserrat', sans-serif;
+    width: 100%;
+    transform: translate(-50%, -100%);
 `;
 
 
 
-const Slideshow: React.FC<SlideshowProps> = ({ eventList }) => {
-    // const total = eventList.length;
+const Slideshow: React.FC<SlideshowProps> = ({ eventList, location }) => {
+    const firstTen =  eventList.flat().slice(0, 10)
     return (
-        <></>
-        // <CardContainer>
-        //     {eventList?.slice(0, 10).map((event, index) => (
-        //         <SlideCard backgroundImage={event.imageURL} index={index} total={total} key={index}/>
-        //     ))}
-        // </CardContainer>
+        <CardContainer>
+            <Title>Your trip to {location}</Title>
+            {firstTen.map((event, index) => (
+                <SlideCard backgroundImage={event.imageURL} index={index} total={10} key={index}/>
+            ))}
+        </CardContainer>
     );
 };
 
