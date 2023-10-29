@@ -6,6 +6,8 @@ import { TypeAnimation } from 'react-type-animation';
 import Counter from './Counter/counter';
 import { motion } from "framer-motion";
 import hotAirBalloon from './../assets/air-hot-balloon.png'
+import plane from './../assets/take-off.png'
+import clouds from './../assets/clouds.png'
 
 const validCities = ['Paris', 'San Francisco', 'Tokyo', 'Rome', 'Bali', 'Greece', 'New York', 'Spain']; // Define valid cities
 
@@ -121,12 +123,152 @@ class SearchBar extends Component {
         <div className={`search-section ${this.state.showSearchModal  ? 'expanded' : ''}`}>
           <div className='header'>
           <motion.img 
-            style={{ position: 'absolute', top: '200px', left: '100px' }}
+            style={{ position: 'absolute', top: '150px', left: '240px' }}
+            width = '60'
+            height = '60'
+            src={plane}
+            animate={{ scale: 1.1 }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
+          <motion.img 
+            style={{ position: 'absolute', top: '370px', left: '1050px' }}
+            width = '60'
+            height = '60'
+            src={plane}
+            animate={{ scale: 1.1 }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
+          <motion.img 
+            style={{ position: 'absolute', top: '70px', left: '1050px' }}
+            width = '60'
+            height = '60'
+            src={plane}
+            animate={{ scale: 1.1 }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
+          <motion.img 
+            style={{ position: 'absolute', top: '250px', left: '1250px' }}
             width = '50'
             height = '50'
             src={hotAirBalloon}
             animate={{ scale: 1.2 }}
-            transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
+          <motion.img 
+            style={{ position: 'absolute', top: '60px', left: '750px' }}
+            width = '50'
+            height = '50'
+            src={hotAirBalloon}
+            animate={{ scale: 1.2 }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
+          <motion.img 
+            style={{ position: 'absolute', top: '50px', left: '50px' }}
+            width = '50'
+            height = '50'
+            src={hotAirBalloon}
+            animate={{ scale: 1.2 }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
+          <motion.img 
+            style={{ position: 'absolute', top: '320px', left: '130px' }}
+            width = '50'
+            height = '50'
+            src={hotAirBalloon}
+            animate={{ scale: 1.2 }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
+          <motion.img 
+            style={{ position: 'absolute', top: '220px', left: '1000px' }}
+            width = '50'
+            height = '50'
+            src={clouds}
+            animate={{ scale: 1.2 }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
+          <motion.img 
+            style={{ position: 'absolute', top: '360px', left: '800px' }}
+            width = '50'
+            height = '50'
+            src={clouds}
+            animate={{ scale: 1.2 }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
+          <motion.img 
+            style={{ position: 'absolute', top: '380px', left: '300px' }}
+            width = '50'
+            height = '50'
+            src={clouds}
+            animate={{ scale: 1.2 }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
+          <motion.img 
+            style={{ position: 'absolute', top: '350px', left: '1330px' }}
+            width = '50'
+            height = '50'
+            src={clouds}
+            animate={{ scale: 1.2 }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
+           <motion.img 
+            style={{ position: 'absolute', top: '90px', left: '500px' }}
+            width = '50'
+            height = '50'
+            src={clouds}
+            animate={{ scale: 1.2 }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
+          <motion.img 
+            style={{ position: 'absolute', top: '70px', left: '1350px' }}
+            width = '50'
+            height = '50'
+            src={clouds}
+            animate={{ scale: 1.2 }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
+          <motion.img 
+            style={{ position: 'absolute', top: '210px', left: '80px' }}
+            width = '50'
+            height = '50'
+            src={clouds}
+            animate={{ scale: 1.2 }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
+          <motion.img 
+            style={{ position: 'absolute', top: '20px', left: '220px' }}
+            width = '50'
+            height = '50'
+            src={clouds}
+            animate={{ scale: 1.2 }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
             className="star-1 star"
             alt="star 1"
           />
