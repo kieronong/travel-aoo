@@ -173,7 +173,7 @@ const Itinerary: React.FC<ItineraryProps> = ({ onNextStep, location, days, price
                 setEventList(testData);
                 setIsLoading(false);
             }
-        }, 60000); // 15 seconds timeout
+        }, 15000); // 15 seconds timeout
         const fetchCards = async () => {
             try {
                 const data = await getItinerary({city: location, price_high: priceRange + 1, price_low: 0, days: days, liked: acceptedCards.map((card) => card.name), disliked: rejectedCards.map((card) => card.name) });

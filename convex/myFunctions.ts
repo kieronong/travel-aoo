@@ -101,7 +101,7 @@ export const get_location = query({
       prompt += attractions.join("\n");
       prompt += `\n\nI do not want to go to:\n\n${args.disliked.join(", ")}.\n\nI do want to go to:\n\n${args.liked.join(", ")}.\n\n\n\n\n`;
       prompt += `Given this, Provide me 3 different lists of locations for a travel itinerary. Each itinerary should have ${args.days * 3} or more locations, and must not contain the locations I don't want to go to. The list must contain only location names, are numbered, and there must be at least ${args.days * 3} locations.`;
-  
+      console.log(prompt)
       // Step 2: Use this prompt with GPT (this step is not provided here since the exact details depend on how you've integrated GPT with your backend)
       const options = {
         method: 'POST',
@@ -131,12 +131,12 @@ export const get_location = query({
           .then(data => {
             const output = data?.output?.choices[0]?.text || "";
             parsedResults = parseItineraries(output);
+            console.log(parsedResults)
           })
           .catch(err => console.error(err));
 
         // Validation:
-        if (parsedResults.length === 3 && 
-            parsedResults.every(list => list.length === args.days * 3)) {
+        if (parsedResults.length === 3) {
           isParsedResultsValid = true;
         }
       } while (!isParsedResultsValid);
