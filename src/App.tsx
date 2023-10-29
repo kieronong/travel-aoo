@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Search from './Search';
 import Carousel from './Carousel';
+import styled from 'styled-components';
 import Itinerary from './Itinerary'; 
 
 interface Card {
@@ -44,8 +45,17 @@ function App() {
     }
   };
 
+  const DebugButton = styled.button`
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  bottom: 10%;
+  }
+`;
+
   return (
     <>
+      {/* <DebugButton onClick={() => setStep(step + 1)}>Next Step</DebugButton> */}
       {step === 0 && <Search onNextStep={onNextStep} />}
       {step === 1 && <Carousel location={location} days={days} priceRange={priceRange} onNextStep={onNextStep}/>}
       {step === 2 && <Itinerary location={location} days={days} priceRange={priceRange} acceptedCards={acceptedCards} rejectedCards={rejectedCards} onNextStep={onNextStep}/>}

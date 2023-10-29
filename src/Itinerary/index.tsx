@@ -51,6 +51,8 @@ const ScreenContainer = styled.div`
 
 const Title = styled.h1`
     text-align: center;
+    font-size: 2em;
+    width: 100%;
 `;
 
 const CoverImage = styled.img`
@@ -77,79 +79,79 @@ const Description = styled.p``;
 const testData = [
     [
         {
+            "category": "tourist_attraction",
+            "day": "Day 1",
+            "description": "Famous comics are often in the lineup at this brick-walled comedy club with several shows nightly.",
+            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=AcJnMuGs4zfCPdcpxXktouA4MaXD_pZ8gmz8i2uCr06RbbKWr3Wak727JdEjGWA0Z1hA5L95qglNokbnAP7pj2HRvOxakZHT8uRlZgv3ISlGIgVDKFAklYP2t1CXAtEinsjCtfMoIBRkfi19tZJH_DXHNfB_oujh1ZiYi1ESbkScZ_2GJFBL&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
+            "name": "Comedy Cellar",
+            "time": "9:00 AM"
+        },
+        {
+            "category": "tourist_attraction",
+            "day": "Day 1",
+            "description": "Indie headliners & up-and-comers have kept this small music venue crowded since the '90s.",
+            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=AcJnMuElITGpWnxC-xkNLSgwWavSihZ0_8oxgGIKJnlemXFUDxsmmX2Q6fpy8PCUOV6DKVBDPsHaqyLug_YBoPPwCtyG1IeFm3qykfGZsR4coKQX3tRTe44G2wjmrs67KdINS8ISrWDEIMRVBvZSTc3Z-gWJrbZcaKI24TtJuGEvteU4WRUD&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
+            "name": "The Mercury Lounge",
+            "time": "11:00 AM"
+        },
+        {
             "category": "restaurant",
             "day": "Day 1",
-            "description": "Luxe rooms & suites in a hip lodging with a swanky restaurant, a glam cocktail lounge & a 24/7 gym.",
-            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=AcJnMuFV_8_6USaHi0TzqiigmyMBiMizntbgT7Lmoqg_ksTD6U5CQvWHHTr5QoN0oM8cOwaZvSa_oqiVASlRb9EMAdLNw7LStSEz7IINvsJT0X0R-9HtVuNvF8bULRFnxuG4qNzDsma--RmLDtx7MT6I3MgJAmRwx9Y6cVyvX0RMuEGBHtkw&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
-            "name": "NOMO SOHO",
+            "description": "Shop with spiffy space-age decor selling plastic bowlfuls of rice pudding in unusual flavors.",
+            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=AcJnMuElkCBqtOm-AQugEbqMo98jppkLCEbBki_hiloS2puzXgGoQ3C8v0vHAh0KW73g8-58IoX3_sKtNM-vJTP2MvlB4ly-DuAUBuPWehKG9D1QOuxrzmM1EAQmAkA5xaOz6nLTv7zlfQtpGLjat2b56EVHkILqxehC_ddhxXea0FoKFRdk&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
+            "name": "Rice To Riches",
+            "time": "4:00 PM"
+        }
+    ],
+    [
+        {
+            "category": "restaurant",
+            "day": "Day 2",
+            "description": "Landmark NoLita restaurant serving coal-fired, thin-crust Neapolitan pizza since 1905.",
+            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=AcJnMuE9mgy8E1AuvB5z3VdWhi6ekZDarTPxW0QMD31YutyFg-9CSQf29JuUvPZJahdpaugSk5ixuGswLYeyg6NUgx-QuAqVJPSax5fjkftfpJ3srG89Kug1z_zp-YYfETkMFnQHRN7Yd1c4Rh1wTKs-T1BvE1x7hTWCXiEdEECqG6pPpU7j&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
+            "name": "Lombardi's Pizza",
             "time": "8:00 AM"
         },
         {
             "category": "restaurant",
-            "day": "Day 1",
-            "description": "Outlet for handcrafted donuts in unusual varieties such as crème brûlée & tres leches.",
-            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=AcJnMuGqZL9OJWkWJHskp_d1ZfDOReXRvJxn6BSNQcMtqGnxPemGSZolj5kvApa_cPa5ERSjnTiP-BSzpjk2RG7GJohAkFaGQdzO1vD-jC_WLg2qbNFxj6C3p-2WoZIUfFLySGqyJh4KHpVvSZ8GZUnBDxMQ_GZp20PUg_MB9mcfsVMg7ldi&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
-            "name": "Doughnut Plant",
-            "time": "12:00 PM"
+            "day": "Day 2",
+            "description": "Luxe rooms & suites in a hip lodging with a swanky restaurant, a glam cocktail lounge & a 24/7 gym.",
+            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=AcJnMuFD_TQyuiHj1s7-GBf1ssYokNGtjS_4XXDPzEBS202NXK3MLlMlKNpfIT_-VVqCkTnByeXl8pHwNoT4w7tNQZmfqCJm5MTbIAWtBYKpMZhm5T444sUmrUCAe0nQIX2MHWAQzfrvEImAEZz3gIMTHNO8h_vN574VuDr_tiQfD_p4ZGmm&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
+            "name": "NOMO SOHO",
+            "time": "11:00 AM"
         },
         {
             "category": "restaurant",
-            "day": "Day 1",
-            "description": "Big slices with creamy artichoke topping & other unique twists draw crowds to this casual pie spot.",
-            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=AcJnMuFxrNgnSnu_C-l4NZJw_3d5jcp0DKWIzqKi2j73yZEuqD8r7tSlKm4nBdfaS7DrK7m-OOCYWAIOBEsunBTzV0kmzs4rDjZusA6-z1_-YPkS4jXdAVLyDEfPZyb0fzIY8LGOLpXN2Bbqt2SGmX5W2rDVqdp6abHfZ61mirEzVOJy_GO2&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
-            "name": "Artichoke Basille's Pizza",
-            "time": "5:00 PM"
+            "day": "Day 2",
+            "description": "TriBeCa hot spot showcasing rustic Italian cuisine in a lively atmosphere.",
+            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=AcJnMuG1hvZVpdNVSfVXEXClnDJcHZSLU_klp_FYnb6O4usvGF2hcxXLr2TaFemM9huE9URPxnUfP3e97a2WwLK4dMdm72c3gjN_iiRJw9xvLVYtK1vtUmnbwxenQuyBWLhGnrdrF5g0oIjnI-K_E4uPJobqMj-oUyzuuxRHgW0wmtkt9vxd&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
+            "name": "Locanda Verde",
+            "time": "3:00 PM"
         }
     ],
     [
         {
-            "category": "restaurant",
-            "day": "Day 1",
-            "description": "Regional American fare (including oysters and much-hyped fried chicken) in a lively, modern space.",
-            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=AcJnMuF6MfqhicOc3Clvnx5B1GLIiRnORuFM8cDBMu4d1R-AV3RJZc6Amoz45kIGmuh_rDSr2sqDUC0dOxaVJKSPiIcPl5N3yp1hnEK_T2unoTzL_v4CGhf9HifVFNnoobcpVXp2C5ZZlQoxOJH3foutMDvlQsa6bsUobZH8Ai3whhmGTBvq&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
-            "name": "The Dutch",
-            "time": "7:00 AM"
+            "category": "tourist_attraction",
+            "day": "Day 3",
+            "description": "Historic park with Ellis Island & Statue of Liberty views, plus ferry service to both islands.",
+            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=AcJnMuGu-yFSLGOgRGblFVC3F_5ahd8HB7ctqJsvjk4SXOFUSeyfD2csAsMYZGFkHGjzWdAgE9Rn0SjLjduMErHhTY_O_OB4YITxM-J2iXvMXVDmzxISlwDzrpL1FTQI7VVCo4Sz9lgjdJUxD4sx9LlwV6RSAh95Z6b5qArTOVkYkJiQM2Hq&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
+            "name": "The Battery",
+            "time": "8:00 AM"
         },
         {
-            "category": "restaurant",
-            "day": "Day 1",
-            "description": "Iconic French brasserie with steak frites, brunch & pastries in a classy space with red banquettes.",
-            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=AcJnMuHFimB1h-ldtMGl4ExfXOXZxv_5UMf93LCzs2fdr62fNp5aQPMyEOP4OANYmlDN5lf7SmE8L25quFVsGMsEKy5uSo87Hxf2H1V0S4XJk0YvEsgAz7TJt0NEBwFei3Ruu7Ttp4hlPSwafETc7QtjZZo_p74XTKcnPzkvI0Dpfnwbpqyp&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
-            "name": "Balthazar",
+            "category": "tourist_attraction",
+            "day": "Day 3",
+            "description": "A casual cafe, a bar with small plates & American fine dining with views from the 101st floor.",
+            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=AcJnMuERqvUCwwctPu5a1aBQltEZbJLs1cs-yEguemrgaCBfc1dyvAYoMiR1nWRuCsFmkLB1Ot52FOE8XU30Qkg5_-_yzzmcI75eUftXVoCRmZi7MkLOdJ8yADGM7a2_1el4twb2blvDMw7W5PT82QZ5ne6h3P825VWPwrU7pu0EnBk2OHtV&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
+            "name": "One World Trade Center",
             "time": "1:00 PM"
         },
         {
-            "category": "restaurant",
-            "day": "Day 1",
-            "description": "Landmark NoLita restaurant serving coal-fired, thin-crust Neapolitan pizza since 1905.",
-            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=AcJnMuFLw9BgMKMF9qjVV8FSgW7BbQSBquXhvgBugS_XwP3PTPX6i0FWdndEvvO1FkvTk47nosV8xZW-wW6b2CRFRNb1a0_HIYC0oLNf8SRfdXup4QYlVCL1S-LkPr65NYd_Skutk24JMOO5LGsQl4CkMq4ufFtwZTUufsh-yaGgyBLGzlm5&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
-            "name": "Lombardi's Pizza",
-            "time": "5:00 PM"
-        }
-    ],
-    [
-        {
-            "category": "restaurant",
-            "day": "Day 1",
-            "description": "Buzzy Robert De Niro-owned mainstay for innovative New American cuisine & a stellar wine list.",
-            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=AcJnMuFm3tPYZQitPtYeObQgnwnv4kx1jZpWRLlN6g1Mr_PNd_1XofTul5qy_fgmRXJbnw72YyGHv78xBdJCHoxmZDRJr7bIQZInr7L-mBPvX60XucqUUHo-WDZV5lcO-nINV3CJClTgf2mHQK40c0PhhR8imUaCE-W2uwzXyyKYr-UkuizN&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
-            "name": "Tribeca Grill",
-            "time": "7:00 AM"
-        },
-        {
-            "category": "restaurant",
-            "day": "Day 1",
-            "description": "This bakery-cafe headed by pastry chef Dominique Ansel serves up creative & beautiful French treats.",
-            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=AcJnMuGZhXKxQG888gBrJdDgR0nOv6HUUh72Xd4ZmhYzVn6POeQm8bLSKEzXBOTgclQjnkQ1QB1zh-jPUqM-9HwpFPBSFKDo1_jlnVA2UTy8DrVdCmG3zzanZWU5YcI2NyDv7lnQx5fHJKbvb1-4tHA4jJmRR3VRJ3UsqJYbkcP_eABG4fTl&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
-            "name": "Dominique Ansel Bakery",
-            "time": "12:00 PM"
-        },
-        {
-            "category": "restaurant",
-            "day": "Day 1",
-            "description": "Hip, counter-serve chain for gourmet takes on fast-food classics like burgers & frozen custard.",
-            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=AcJnMuGjlX_VFr3rYeWbC2V5hPOESjW1qkLo11Wm3-qPC1sgxdsdpxjzdmyNIgZBa5yVqgbHDrIBCtR8B3-Y6Kkkj8D7LAR6VeFnEfuD5SZcOE0zUD7o0q6ea_s-0OaV70KaGOmJKhJN1wZ2scP-9fyDO9Qh2XCcRH5rEB8nBIiIp9VINanm&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
-            "name": "Shake Shack Battery Park City",
+            "category": "tourist_attraction",
+            "day": "Day 3",
+            "description": "Contemporary art museum housed in a sleek white building with a gift shop & cafe in the lobby.",
+            "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=AcJnMuF4XB8HNxBPhV0vLWbqcN-VZcrrwf17HXonrAsv5pjqs6LcfpmJlZhDIa5AXHFsO0_Nl18UeMKD2NjHF2pUpmJUf1inmgNL7mu048nrDXjsx_O25KxZzuIx44K1phmHZMMEVtvE0Wi67kMmTXNEC2KykCoMlWd3Fjqfk8uoj-gPTLgw&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
+            "name": "New Museum",
             "time": "4:00 PM"
         }
     ]
@@ -159,24 +161,42 @@ const testData = [
 const Itinerary: React.FC<ItineraryProps> = ({ onNextStep, location, days, priceRange, acceptedCards, rejectedCards }) => {
 
     const [isLoading, setIsLoading] = React.useState(true);
-    const [eventList, setEventList] = React.useState<Event[][]>(testData);
+    const [eventList, setEventList] = React.useState<Event[][]>();
+
     const getItinerary = useAction(api.myFunctions.generate_itinerary);
-    const title = useTypingEffect("Your Adventure Starts Here", 100);
+    const title = useTypingEffect("✨ Your Adventure Starts Here ✨", 100);
 
     React.useEffect(() => {
-        // const fetchCards = async () => {
-        //     try {
-        //         const data = await getItinerary({city: location, price_high: priceRange + 1, price_low: 0, days: days, liked: acceptedCards.map((card) => card.name), disliked: rejectedCards.map((card) => card.name) })
-        //         const newEventList = data;
-        //         setEventList(newEventList)
-        //         setIsLoading(false);
-        //         console.log(data)
-        //     } catch (error) {
-        //         console.error(error);
-        //     }
-            setIsLoading(false);
-        // };
-        // fetchCards();
+        let isCancelled = false; 
+        const timeoutId = setTimeout(() => {
+            if (isLoading) {
+                setEventList(testData);
+                setIsLoading(false);
+            }
+        }, 60000); // 15 seconds timeout
+        const fetchCards = async () => {
+            try {
+                const data = await getItinerary({city: location, price_high: priceRange + 1, price_low: 0, days: days, liked: acceptedCards.map((card) => card.name), disliked: rejectedCards.map((card) => card.name) });
+                console.log(data)
+                if (!isCancelled) {
+                    setEventList(data);
+                    setIsLoading(false);
+                }
+            } catch (error) {
+                if (!isCancelled) {
+                    console.error(error);
+                    setIsLoading(false);
+                }
+            }
+        };
+
+        fetchCards();
+
+        return () => {
+            isCancelled = true; // Cleanup the effect
+            clearTimeout(timeoutId); // Clear the timeout
+        };
+
     }, [])
 
     return (
@@ -185,24 +205,29 @@ const Itinerary: React.FC<ItineraryProps> = ({ onNextStep, location, days, price
             {!isLoading &&
             <ScreenContainer>
                 <Slideshow eventList={eventList} location={location}/>
-                <TimelineContainer>
-                    <Title >{title}</Title>
-                    <VerticalTimeline lineColor = 'rgb(33, 158, 188)'>
+                <TimelineContainer style = {{width:'90%'}}>
+                    <Title>{title}</Title>
+                    <VerticalTimeline lineColor = '#3F7EA0' layout ='1-column-left'>
                         {eventList?.map((day, index)=>(
                             day.map((event, index)=>(
                                 <VerticalTimelineElement
                                 key = {index}
                                 className="vertical-timeline-element--work"
-                                contentStyle={{ background: 'rgb(127, 161, 163)', color: '#fff' }}
-                                contentArrowStyle={event.category === 'tourist_attraction' ? { borderRight: '7px solid  #64C3CE' } : { borderRight: '7px solid  #FF890B' } }
-                                date="2011 - present"
-                                iconStyle={event.category === 'tourist_attraction' ? { background: '#64C3CE', color: '#fff' , border: '1px dotted rgb (2, 48, 71'}: { background: '#FF890B', color: '#fff', border: '1px dotted rgb(251, 133, 0)' }}
+                                contentStyle={event.category === 'tourist_attraction' ? { background: '#F0E7DE', color: '#0F0507', border: '5px dashed #98D6FB' }: { background: '#F0E7DE', color: '#0F0507',  border: '5px dashed #FF758A' }}
+                                contentArrowStyle={event.category === 'tourist_attraction' ? { borderRight: '9px solid  #98D6FB' } : { borderRight: '7px solid  #FF758A' } }
+                                // date="2011 - present"
+                                iconStyle={event.category === 'tourist_attraction' ? { background: '#98D6FB', color: '#fff'}: { background: '#FF758A', color: '#fff' }}
                                 icon={event.category === 'tourist_attraction' ? <AttractionsIcon /> : <LocalDiningIcon />}
     
                             >
-                                <Time>{event.time}</Time>
-                                <EventTitle>{event.name}</EventTitle>
-                                <Description>{event.description}</Description>
+                                <div style={{display:'flex', justifyContent:'space-between'}}>
+                                    <div style={{width: '65%'}}>
+                                    <Time>{event.day}-{event.time}</Time>
+                                    <EventTitle>{event.name}</EventTitle>
+                                    <Description>{event.description}</Description>
+                                    </div>
+                                    <img src = {event.imageURL}  style={{width:'30%'}}/>
+                                </div>
                             </VerticalTimelineElement>))))
                             }                      
                         </VerticalTimeline>

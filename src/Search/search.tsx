@@ -1,5 +1,7 @@
 // SearchBar.js
 import React, { Component } from 'react';
+import styled from 'styled-components';
+
 import './style.css';
 import Autosuggest from 'react-autosuggest';
 import { TypeAnimation } from 'react-type-animation';
@@ -8,6 +10,8 @@ import { motion } from "framer-motion";
 import hotAirBalloon from './../assets/air-hot-balloon.png'
 import plane from './../assets/take-off.png'
 import clouds from './../assets/clouds.png'
+import next from './../Carousel/next.png'
+
 
 const validCities = ['Paris', 'San Francisco', 'Tokyo', 'Rome', 'Bali', 'Greece', 'New York', 'Spain']; // Define valid cities
 
@@ -48,6 +52,7 @@ class SearchBar extends Component {
     event.preventDefault();
     // Implement the search functionality here
     // You can access this.state.location, this.state.days, and this.state.price
+    this.props.onNextStep(this.state.location, this.state.days, this.state.price);
     console.log('Search Parameters:', this.state);
   };
 
@@ -97,8 +102,7 @@ class SearchBar extends Component {
           style={{
             backgroundImage: `url(${photoURL})`,
           }}
-        >
-          {name}
+        > <div className="preset-location-text">{name} </div>
         </div>
       );
     };
@@ -114,9 +118,15 @@ class SearchBar extends Component {
 
     const buttonStyle = (buttonIndex) => {
       return {
-        backgroundColor: this.state.price === buttonIndex ? '#FF758A' : '#ECECEC',
+        backgroundColor: this.state.price === buttonIndex ? '#FF758A' : '#BFDCED',
       };
     };
+
+    const IconImage = styled.img`
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+`;
 
     return (
       <div className='homepage'>
@@ -133,7 +143,7 @@ class SearchBar extends Component {
             alt="star 1"
           />
           <motion.img 
-            style={{ opacity: this.state.showSearchModal ? 0 : 1, pointerEvents: this.state.showSearchModal ? 'none': 'auto' , position: 'absolute', top: '370px', left: '1050px' }}
+            style={{ position: 'absolute', top: '470px', left: '90px' }}
             width = '60'
             height = '60'
             src={plane}
@@ -143,7 +153,27 @@ class SearchBar extends Component {
             alt="star 1"
           />
           <motion.img 
+            style={{ opacity: this.state.showSearchModal ? 0 : 1, pointerEvents: this.state.showSearchModal ? 'none': 'auto' , position: 'absolute', top: '460px', left: '850px' }}
+            width = '60'
+            height = '60'
+            src={hotAirBalloon}
+            animate={{ scale: 1.1 }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
+          <motion.img 
             style={{ position: 'absolute', top: '70px', left: '1050px' }}
+            width = '60'
+            height = '60'
+            src={plane}
+            animate={{ scale: 1.1 }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
+            <motion.img 
+            style={{ position: 'absolute', top: '220px', left: '650px' }}
             width = '60'
             height = '60'
             src={plane}
@@ -203,10 +233,10 @@ class SearchBar extends Component {
             alt="star 1"
           />
           <motion.img 
-            style={{ opacity: this.state.showSearchModal ? 0 : 1, pointerEvents: this.state.showSearchModal ? 'none': 'auto', position: 'absolute', top: '360px', left: '800px' }}
+            style={{ position: 'absolute', top: '360px', left: '940px' }}
             width = '50'
             height = '50'
-            src={clouds}
+            src={plane}
             animate={{ scale: 1.2 }}
             transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse' }}
             className="star-1 star"
@@ -223,7 +253,7 @@ class SearchBar extends Component {
             alt="star 1"
           />
           <motion.img 
-            style={{ position: 'absolute', top: '350px', left: '1330px' }}
+            style={{ position: 'absolute', top: '410px', left: '1330px' }}
             width = '50'
             height = '50'
             src={clouds}
@@ -274,13 +304,13 @@ class SearchBar extends Component {
           />
         <TypeAnimation
           sequence={[
-            'my next dream vacation in  . . .',
+            'my dream vacation to  . . .',
             3000, 
-            'my next dream vacation in new york 🗽',
+            'my dream vacation to new york 🗽',
             2000,
-            'my next dream vacation in london 🎡',
+            'my dream vacation to london 🎡',
             2000,
-            'my next dream vacation in tokyo 🗼',
+            'my dream vacation to tokyo 🗼',
             2000
           ]}
           wrapper="div"
@@ -309,14 +339,12 @@ class SearchBar extends Component {
         </div>
         {this.state.showSearchModal && (
           <div>
-           <form onSubmit={this.handleSearchSubmit}>
            <div className='more-options'>
 
             <div className='day-counter'>
               <Counter curValue={this.state.days} changeValue={this.handleDaysChange}/>
             </div>
            <div className="price-select">
-            <div>Price: </div>
               <button  
                 style={buttonStyle(0)}
                 onClick={() => this.handlePriceButtonClick(0)}>
@@ -330,21 +358,33 @@ class SearchBar extends Component {
                style={buttonStyle(2)}
                onClick={() => this.handlePriceButtonClick(2)}
               >$$$</button>
+
            </div>
+           <button className='search-button' type="submit" onClick={this.handleSearchSubmit}><IconImage src={next} /></button>
+
          </div>
 
-           <button className='search-button' type="submit">Search</button>
-         </form>
         </div>
 
         )}
         </div>
         </div>
       <div className='bottom-section'>
-      <div className="preset-locations">
+      <div className="preset-locations" style={{ paddingTop: '80px' }}>
         {createPresetLocation('Paris', 'https://res.klook.com/image/upload/Mobile/City/swox6wjsl5ndvkv5jvum.jpg')}
         {createPresetLocation('San Francisco', 'https://blog.urbanadventures.com/wp-content/uploads/2017/10/San-Fran-bridge.jpg')}
         {createPresetLocation('Tokyo', 'https://media.cntraveler.com/photos/63482b255e7943ad4006df0b/16:9/w_2560%2Cc_limit/tokyoGettyImages-1031467664.jpeg')}
+      </div>
+      <div className="preset-locations">
+        {createPresetLocation('Rome', 'https://i.natgeofe.com/k/a6c9f195-de20-445d-9d36-745ef56042c5/OG_Colosseum_Ancient-Rome_KIDS_1122_4x3.jpg')}
+        {createPresetLocation('Bali', 'https://a.cdn-hotels.com/gdcs/production143/d1112/c4fedab1-4041-4db5-9245-97439472cf2c.jpg')}
+        {createPresetLocation('Greece', 'https://static.independent.co.uk/s3fs-public/thumbnails/image/2021/06/02/20/istock-833264986.jpg')}
+      </div>
+      <div className="preset-locations">
+        {createPresetLocation('New York', 'https://i.natgeofe.com/k/5b396b5e-59e7-43a6-9448-708125549aa1/new-york-statue-of-liberty.jpg')}
+        {createPresetLocation('Spain', 'https://static.independent.co.uk/2023/03/10/14/iStock-1320014700.jpg?width=1200&height=900&fit=crop')}
+        {createPresetLocation('London', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/33/f5/de/london.jpg?w=700&h=500&s=1')}
+
       </div>
       </div>
     </div>

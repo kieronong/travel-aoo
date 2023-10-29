@@ -1,6 +1,6 @@
 :root {
   --background-blue: #98D6FB;
-  --darker-blue: #007bff; 
+  --darker-blue: #00A0FF; 
   --black: #1B1C1E;
   --white: #FFF;
   --pink: #FF758A
@@ -22,6 +22,7 @@
   align-items: center;
   transition: 0.5s;
   transition: max-height 0.5s ease-in-out; 
+  justify-content: space-evenly;
 
 }
 
@@ -32,7 +33,7 @@
 }
 
 .header {
-  margin-top: 200px;
+  margin-top: 300px;
   padding: 20px;
   text-align: left;
   width: 50%;
@@ -63,7 +64,7 @@
   display: flex;
   flex-direction: column;
   max-height: 800px; /* Adjust the max-height as needed */
-  overflow: auto;
+  overflow: none;
   transition: max-height 0.5s ease-in-out;
   
 }
@@ -75,6 +76,7 @@
 .bottom-section {
   background-color: var(--white);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   transition: flex 0.5s;
@@ -83,24 +85,43 @@
 
 
 .preset-locations {
-  padding-top: 50px;
+  padding-top: 30px;
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
 
 .preset-location {
-  width: 250px; /* Set your desired width for the boxes */
+  width: 300px; /* Set your desired width for the boxes */
   height: 200px; /* Set your desired height for the boxes */
   margin: 0 10px;
   cursor: pointer;
   background-size: cover;
   background-position: center;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  display: flex; /* Use flexbox */
+  flex-direction:column;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.preset-location-text {
   text-align: center;
   color: var(--white);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better visibility */
   font-size: 18px; /* Font size for the location name */
-  border-radius: 10px;
+  display:none;
+  width: 100%;
+  height: 200px;
+  background-color: rgba(0, 0, 0, 0.45);
+  padding-top: 100px;
+
+}
+
+.preset-location:hover .preset-location-text  {
+  display: block;
+
 }
 
 /* Style for the Autosuggest container */
@@ -172,25 +193,41 @@
 }
 
 .search-button {
-  background-color: var(--pink);
   color: var(--white);
-  padding: 10px 15px;
   border: none;
-  border-radius: 5px;
+  border-radius: 50px;
   cursor: pointer;
+  height:50px;
+  width: 100px;
+  margin-left: auto;
+  margin-right: 50px;
+  font-size:17px;
+
+  font-size: 1em;
+  font-family: 'Rubik';
+  
+  background-color: #BFDCED;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 10px 10px 0 rgba(0,0,0,0.2);
+  transition: background-color 0.3s, width 0.3s, height 0.3s;
+  &:hover {
+      background-color: var(--pink);
+      width: 120px;
+      height: 55px;
+  }
 }
 
 /* CSS for the days counter and price buttons */
 .more-options {
   display: flex;
-  justify-content: space-evenly;
   width: 100%;
   align-items: center;
   padding: 20px;
 }
 
 .day-counter {
-  margin-right: 20px; /* Add spacing between the day counter and price buttons */
+  margin-right: 70px; /* Add spacing between the day counter and price buttons */
 }
 
 .price-select {

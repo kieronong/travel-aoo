@@ -95,7 +95,7 @@ const ContinueButton = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: light-blue;
+    background-color: var(--background-blue);
     border: none;
     cursor: pointer;
     box-shadow: 0 10px 10px 0 rgba(0,0,0,0.2);
@@ -229,7 +229,7 @@ const Carousel: React.FC<CarouselProps> = ({ location, days, priceRange, onNextS
                 <AcceptButton onClick={handleAccept}>
                     <IconImage src={accept} />
                 </AcceptButton>
-                {(cardIndex > 10) && <ContinueButton onClick={handleSubmit}><IconImage src={next} /></ContinueButton>}
+                {(cardIndex > 6) && <ContinueButton onClick={handleSubmit}><IconImage src={next} /></ContinueButton>}
         </div>
     );
 };

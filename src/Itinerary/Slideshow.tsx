@@ -3,7 +3,8 @@ import styled, { keyframes } from 'styled-components';
 
 // Define the prop types
 interface SlideshowProps {
-    eventList: Event[];
+    eventList: Event[][],
+    location: string,
 }
 
 interface Event {
@@ -16,35 +17,51 @@ interface Event {
 
 const CardContainer = styled.div`
     aspect-ratio: 5/3.28;
-    height: 65vh;
+    height: 100vh;
     position: relative;
     overflow: hidden; 
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     background-size: cover;
     background-position: center;
     background-color: black;
+    animation: ${() => closeAnimation()} 1s linear forwards 1;
+    animation-delay: 3.6s;
 `;
 
-const totalDuration = 5; // total duration of the animation, you can adjust this value
+const closeAnimation = () => keyframes`
+    0% {
+        height: 100vh;
+    }
+    100% {
+        height: 65vh;
+    }
+`;
 
-const slideAnimation = () => keyframes`
+const slideAnimation = (total: number) => keyframes`
     0% {
         opacity: 1;
+    }
+    ${100 / total}%  {
+        opacity: 1;
+    } 
+    ${100 / total + 1}%  {
+        opacity: 0;
     }
     100% {
         opacity: 0;
     }
 `;
 
-const SlideCard = styled.div<{ backgroundImage?: string, index: number }>`
+const SlideCard = styled.div<{ backgroundImage?: string, index: number, total: number }>`
     width: 100%;
     height: 100%;
     background-size: cover;
     background-image: ${({ backgroundImage }) => `url(${backgroundImage})`};
+    filter: grayscale(20%) contrast(90%) brightness(90%) hue-rotate(20deg) sepia(20%);
     position: absolute;
-    animation: ${() => slideAnimation()} 0.1s linear forwards 1;
-    z-index: ${({ index }) => 10 - index };
-    animation-delay: ${({ index }) => `${2 + 0.5 * index}s`}; // delay based on index
+    animation: ${({total}) => slideAnimation(total)} ${({total }) => 0.3 * total}s linear infinite;
+    z-index: ${({ total, index }) => total - index };
+    animation-delay: ${({ index }) => `${0.1 + 0.3 * index}s`};
 `;
 
 const Title = styled.h1`
@@ -53,10 +70,12 @@ const Title = styled.h1`
     top: 50%;
     left: 50%;
     z-index: 30;
-    font-size: 3em;
+    font-size: 5em;
     color: white;
-    text-shadow: h-shadow v-shadow blur-radius 
-    font-family: 'Montserrat', sans-serif;
+    text-shadow: 5px 5px #ff0000;
+    font-family: 'Libre Baskerville';
+    font-style: italic;
+    font-weight: bold;
     width: 100%;
     transform: translate(-50%, -100%);
 `;
@@ -64,12 +83,12 @@ const Title = styled.h1`
 
 
 const Slideshow: React.FC<SlideshowProps> = ({ eventList, location }) => {
-    const firstTen =  eventList.flat().slice(0, 10)
+    const allEvents = eventList.flat()
     return (
         <CardContainer>
-            <Title>Your trip to {location}</Title>
-            {firstTen.map((event, index) => (
-                <SlideCard backgroundImage={event.imageURL} index={index} total={10} key={index}/>
+            <Title>Your Trip to {location}</Title>
+            {allEvents.map((event, index) => (
+                <SlideCard backgroundImage={event.imageURL} index={index} total={allEvents.length} key={index}/>
             ))}
         </CardContainer>
     );
