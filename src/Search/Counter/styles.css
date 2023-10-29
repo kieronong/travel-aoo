@@ -1,0 +1,54 @@
+
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.input-wrapper {
+  width: 50px;
+  height: 50px;
+  border-radius: 0.6rem/0.8rem;
+  background-color: var(--pink);
+  color: var(--white);
+  overflow: hidden;
+  box-shadow: inset 0 0 0.8rem 0.1rem rgba(31, 64, 127, 0.2),
+    0 20px 30px -10px rgba(31, 64, 127, 0.26);
+}
+
+.input-counter {
+  width: 100%;
+  height: 100%;
+  background: var(--pink);
+  border: none;
+  text-align: center;
+  color: var(--white);
+  font-weight: bold;
+  font-size: 18px;
+  outline: none;
+  transition-property: transform, opacity;
+  text-transform: linear;
+  transition-duration: 0.25s;
+  z-index: 1000;
+}
+
+.button {
+  background: none;
+  border: none;
+  padding: 0.8rem;
+  color: rgba(57, 120, 239, 0.35);
+  font-size: 1.6rem;
+  outline: none;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    color: var(--pink)
+  }
+}

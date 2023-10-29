@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import './style.css';
 import Autosuggest from 'react-autosuggest';
+import { TypeAnimation } from 'react-type-animation';
+import Counter from './Counter/counter';
 
 const validCities = ['Paris', 'San Francisco', 'Tokyo', 'Rome', 'Bali', 'Greece', 'New York', 'Spain']; // Define valid cities
 
@@ -14,7 +16,7 @@ class SearchBar extends Component {
       showSearchModal: false,
       location: '',
       days: 4,
-      price: '$',
+      price: null,
       suggestions: [],
     };
   }
@@ -73,9 +75,13 @@ class SearchBar extends Component {
     }
 }
 
-  // handlePresetLocation = (location) => {
-  //   this.setState({ location });
-  // };
+  handlePresetLocation = (location) => {
+    this.setState({ location });
+  };
+
+  handlePriceButtonClick = (buttonIndex) => {
+    this.setState({ price: buttonIndex})
+  }
 
   render() {
     const createPresetLocation = (name, photoURL) => {
@@ -94,64 +100,93 @@ class SearchBar extends Component {
 
     const { location, suggestions } = this.state;
     const inputProps = {
-      placeholder: 'Location',
+      placeholder: 'my next adventure 🚀',
       value: location,
       onChange: this.handleInputChange,
+      onFocus: this.handleShowSearchModal,
+      className: 'autosuggest'
+    };
+
+    const buttonStyle = (buttonIndex) => {
+      return {
+        backgroundColor: this.state.price === buttonIndex ? '#FF758A' : '#ECECEC',
+      };
     };
 
     return (
-      <div>
-      <div className={ this.state.showSearchModal ? 'search-page-modal-present' : 'search-page'}>
-        <div className='search-queries'
-        onFocus={this.handleShowSearchModal}
-        onBlur={this.hideShowSearchModal}
->              
-        <Autosuggest
-          suggestions={suggestions}
-          onSuggestionsFetchRequested={({ value }) => {
-            this.setState({ suggestions: this.getSuggestions(value) });
-          }}
-          onSuggestionsClearRequested={() => {
-            this.setState({ suggestions: [] });
-          }}
-          getSuggestionValue={(suggestion) => suggestion}
-          renderSuggestion={this.renderSuggestion}
-          inputProps={inputProps}
+      <div className='homepage'>
+        <div className={`search-section ${this.state.showSearchModal  ? 'expanded' : ''}`}>
+          <div className='header'>
+        <TypeAnimation
+          sequence={[
+            // Same substring at the start will only be typed out once, initially
+            'my next dream vacation in  . . .',
+            3000, // wait 1s before replacing "Mice" with "Hamsters"
+            'my next dream vacation in new york 🗽',
+            2000,
+            'my next dream vacation in london 🎡',
+            2000,
+            'my next dream vacation in tokyo 🗼',
+            2000
+          ]}
+          wrapper="div"
+          speed={30}
+          repeat={Infinity}
         />
+        </div>
+        <div className={`search-queries ${this.state.showSearchModal  ? 'expanded' : ''}`}
+        onBlur={this.hideShowSearchModal}
+>         <div className="autocomplete-container">
+            <div className="magnifying-glass-icon">
+              <img src={"https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Magnifying_glass_icon.svg/1200px-Magnifying_glass_icon.svg.png"} alt="Magnifying Glass" />
+            </div>
+            <Autosuggest
+              suggestions={suggestions}
+              onSuggestionsFetchRequested={({ value }) => {
+                this.setState({ suggestions: this.getSuggestions(value) });
+              }}
+              onSuggestionsClearRequested={() => {
+                this.setState({ suggestions: [] });
+              }}
+              getSuggestionValue={(suggestion) => suggestion}
+              renderSuggestion={this.renderSuggestion}
+              inputProps={inputProps}
+            />
+        </div>
         {this.state.showSearchModal && (
+          <div>
            <form onSubmit={this.handleSearchSubmit}>
-           <div className="search-field">
-             <label htmlFor="days">Number of Days:</label>         
-                <div className='slider'>
-             <input
-                  type="range" // Change the input type to "range"
-                  id="days"
-                  min="1" // Set the minimum value for the slider
-                  max="8" // Set the maximum value for the slider
-                  value={this.state.days}
-                  onChange={this.handleDaysChange}
-                />
-                <span>{this.state.days} days</span> {/* Display the selected value */}
-                </div>
+           <div className='more-options'>
+
+            <div className='day-counter'>
+              <Counter />
+            </div>
+           <div className="price-select">
+            <div>Price: </div>
+              <button  
+                style={buttonStyle(0)}
+                onClick={() => this.handlePriceButtonClick(0)}>
+                  $
+                </button>
+              <button
+               style={buttonStyle(1)}
+               onClick={() => this.handlePriceButtonClick(1)}>
+              $$</button>
+              <button
+               style={buttonStyle(2)}
+               onClick={() => this.handlePriceButtonClick(2)}
+              >$$$</button>
            </div>
-           <div className="search-field">
-             <label htmlFor="price">Price Point:</label>
-             <select
-               id="price"
-               value={this.state.price}
-               onChange={this.handlePriceChange}
-             >
-               <option value="$">$</option>
-               <option value="$$">$$</option>
-               <option value="$$$">$$$</option>
-             </select>
-           </div>
-           <button type="submit">Search</button>
+         </div>
+
+           <button className='search-button' type="submit">Search</button>
          </form>
+        </div>
+
         )}
         </div>
         </div>
-      <div className='wrapper'>
+      <div className='bottom-section'>
       <div className="preset-locations">
         {createPresetLocation('Paris', 'https://res.klook.com/image/upload/Mobile/City/swox6wjsl5ndvkv5jvum.jpg')}
         {createPresetLocation('San Francisco', 'https://blog.urbanadventures.com/wp-content/uploads/2017/10/San-Fran-bridge.jpg')}
@@ -159,7 +194,6 @@ class SearchBar extends Component {
       </div>
       </div>
     </div>
-
   );
 }
 }

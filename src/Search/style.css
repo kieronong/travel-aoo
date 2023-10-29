@@ -1,102 +1,107 @@
 /* styles.css */
 
-/* Style for the modal background overlay */
-.search-modal {
-  position: fixed; /* Fixed positioning for overlay */
-  top: 30%; /* Center vertically */
-  left: 20%;
-  transform: translate(-50%, -50%); /* Center the modal */
-  width: 50%;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  z-index: 1000;
+:root {
+  --background-blue: #98D6FB;
+  --darker-blue: #007bff; 
+  --black: #1B1C1E;
+  --white: #FFF;
+  --pink: #FF758A
+}
+  
+
+
+.homepage {
+  display: flex;
+  flex-direction: column;
+  transition: 0.5s;
 }
 
-/* Style for the background when modal is present */
-.search-page-modal-present {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-  backdrop-filter: blur(4px); /* Apply a blur effect */
-  z-index: 999; /* Position this just below the modal */
+.search-section {
+  background-color: var(--background-blue);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+  transition: max-height 0.5s ease-in-out; 
+
+}
+
+.search-section.expanded {
+  overflow: auto;
+  transition: max-height 0.5s ease-in-out; 
+}
+
+.header {
+  margin-top: 200px;
+  padding: 20px;
+  text-align: left;
+  width: 50%;
+  justify-content: left;
+  font-family: Rubik;
+  font-size: 30px;
+  font-style: bold;
+  font-weight: 500;
+  line-height: normal;
+  height: 50px;
 }
 
 .search-queries {
-  position: fixed; /* Fixed positioning for overlay */
-  top: 30%; /* Center vertically */
-  left: 25%;
+  padding: 10px;
   width: 50%;
-  background-color: #87D7FF; 
-  padding: 15px;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  z-index: 1000;
+  background-color: var(--white);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-  text-align: center;  
-}
-  
-  /* Style for preset locations */
-  .preset-locations {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    position: fixed;
-    top: 400px;
-  }
-
-  .wrapper {
-    display: flex;
-    flex-direction: column; /* Display children vertically */
-    align-items: center; /* Center children horizontally */
-    justify-content: center; /* Center children vertically */
-  }
-  
-  .preset-location {
-    width: 250px; /* Set your desired width for the boxes */
-    height: 200px; /* Set your desired height for the boxes */
-    margin: 0 10px;
-    cursor: pointer;
-    background-size: cover;
-    background-position: center;
-    text-align: center;
-    color: #fff; /* Text color */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better visibility */
-    font-size: 18px; /* Font size for the location name */
-    border-radius: 10px;
-  }
-  
-  /* Style for labels */
-  label {
-    display: block;
-    font-weight: bold;
-  }
-
-  input {
-    justify-content: center;
-    margin-bottom: 10px;
-    padding:5px;
-    width: 500px;
-    }
-
-/* Style for the days and price fields */
-.search-field {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-evenly;
-  margin-bottom: 10px;
-  width: 50%; /* Take up the middle 50% of the container's width */
-  margin: 0 auto; /* Horizontally center the container within the parent */
-  padding-bottom: 10px;
+  transition: 0.5s;
+  text-align: center;
+  margin-bottom: 60px;
+  max-height: 50px;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out; 
 }
 
-.slider {
+.search-queries.expanded {
   display: flex;
+  flex-direction: column;
+  max-height: 800px; /* Adjust the max-height as needed */
+  overflow: auto;
+  transition: max-height 0.5s ease-in-out;
+  
+}
+
+.search-queries.expanded input {
+  border: 1px solid #ccc;
+}
+
+.bottom-section {
+  background-color: var(--white);
+  display: flex;
+  justify-content: center;
   align-items: center;
+  transition: flex 0.5s;
+  min-height: 300px;
+}
+
+
+.preset-locations {
+  padding-top: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.preset-location {
+  width: 250px; /* Set your desired width for the boxes */
+  height: 200px; /* Set your desired height for the boxes */
+  margin: 0 10px;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  color: var(--black)
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better visibility */
+  font-size: 18px; /* Font size for the location name */
+  border-radius: 10px;
 }
 
 /* Style for the Autosuggest container */
@@ -104,11 +109,44 @@
   position: relative; /* Position relative is required for absolute positioning of the suggestions */
 }
 
+.autocomplete-container {
+  position: relative;
+}
+
+.autosuggest {
+  justify-content: center;
+  height: 35px;
+  width: 90%;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  font-size: 16px;
+  padding-left: 35px; /* Add padding to the left to make space for the icon */
+  }
+
+  .autosuggest:hover {
+    border: 1px solid #ccc;
+  }
+
+.magnifying-glass-icon img {
+  position: absolute;
+  z-index: 1000;
+  left: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px; /* Adjust the size if needed */
+  height: 20px; 
+  color: #ccc
+} 
+
+
 /* Style for the Autosuggest suggestions container */
 .react-autosuggest__suggestions-container {
   position: absolute; /* Position suggestions absolutely to overlap other elements */
   z-index: 1000; /* A high z-index value to place the suggestions on top */
-  width: 100%; /* Make sure the suggestions container spans the full width */
+  width: 95%; /* Make sure the suggestions container spans the full width */
+  text-align: left;
+  left: 2.5%;
 }
 
 /* Style for the Autosuggest suggestions list */
@@ -120,9 +158,9 @@
 
 /* Style for individual suggestions in the list */
 .react-autosuggest__suggestion {
-  padding: 10px;
-  background-color: #ccc; /* Background color for suggestions */
-  color: #000;
+  padding: 5px;
+  background-color: var(--white); /* Background color for suggestions */
+  color: var(--black);
   border: 1px solid #ccc;
   border-radius: 5px;
   cursor: pointer;
@@ -134,37 +172,55 @@
   background-color: #f0f0f0; /* Highlighted suggestion background color */
 }
 
-/* Style for the search button */
-button {
-  background-color: #007bff;
-  color: white;
+.search-button {
+  background-color: var(--pink);
+  color: var(--white);
   padding: 10px 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-/* Style for input fields and select */
-input {
-  width: 95%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+/* CSS for the days counter and price buttons */
+.more-options {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  align-items: center;
+  padding: 20px;
 }
 
-select {
-  width: 25%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.day-counter {
+  margin-right: 20px; /* Add spacing between the day counter and price buttons */
 }
 
-#days {
-  width: 150px; /* Adjust the width of the slider track */
-  height: 5px; /* Adjust the height of the slider track */
-  border: none; /* Remove the border of the slider track */
-  background-color: #ccc; /* Color of the slider track */
-  border-radius: 5px; /* Rounded edges for the slider track */
-  outline: none; /* Remove the default focus outline */
-  transition: background-color 0.3s; /* Add a smooth transition effect */
+.price-select {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+.price-select div {
+  margin-right: 10px; /* Add spacing between the "Price" text and the buttons */
+  display: flex;
+}
+
+ .price-select button {
+  background: var(--pink);
+  border: none;
+  padding: 5px;
+  margin-right: 5px; 
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.price-select button.selected {
+  background-color: var(--pink);
+  color: var(--white);
+  font-weight: bold;
+} 
