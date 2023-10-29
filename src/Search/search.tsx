@@ -30,8 +30,8 @@ class SearchBar extends Component {
     this.setState({ location: newValue });
   };
 
-  handleDaysChange = (event) => {
-    this.setState({ days: event.target.value });
+  handleDaysChange = (newValue) => {
+    this.setState({ days: newValue });
   };
 
   handlePriceChange = (event) => {
@@ -76,6 +76,7 @@ class SearchBar extends Component {
 
   handlePresetLocation = (location) => {
     this.setState({ location });
+    this.setState({ showSearchModal: true})
   };
 
   handlePriceButtonClick = (buttonIndex) => {
@@ -158,7 +159,7 @@ class SearchBar extends Component {
            <div className='more-options'>
 
             <div className='day-counter'>
-              <Counter />
+              <Counter curValue={this.state.days} changeValue={this.handleDaysChange}/>
             </div>
            <div className="price-select">
             <div>Price: </div>

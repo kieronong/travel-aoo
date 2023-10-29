@@ -3,14 +3,22 @@ import Search from './Search';
 import Carousel from './Carousel';
 import Itinerary from './Itinerary'; 
 
+interface Card {
+  imageURL: string;
+  name: string;
+  description: string;
+  rating: string;
+}
+
 function App() {
-  const [step, setStep] = useState<number>(1);
+  const [step, setStep] = useState<number>(0);
   const [location, setLocation] = useState<string>('New York');
   const [days, setDays] = useState<number>(1);
   const [priceRange, setPriceRange] = useState<number>(2);
-  const [apiPayload, setApiPayload] = useState<string>(''); 
+  const [acceptedCards, setAcceptedCards] = useState<Card[]>([]);
+  const [rejectedCards, setRejectedCards] = useState<Card[]>([]);
 
-  const onNextStep = async (location?: string, days?: number, priceRange?: number, apiPayload?: string) => {
+  const onNextStep = async (location?: string, days?: number, priceRange?: number, acceptedCards?: Card[], rejectedCards?: Card[]) => {
     try {
       if (step === 0) {
         if (location) {
@@ -23,8 +31,11 @@ function App() {
           setPriceRange(priceRange);
         }
       } else if (step === 1) {
-        if (apiPayload) {
-          setApiPayload(apiPayload);
+        if (acceptedCards) {
+          setAcceptedCards(acceptedCards);
+        }
+        if (rejectedCards) {
+          setRejectedCards(rejectedCards);
         }
       }
       setStep(prevStep => prevStep + 1);
@@ -37,7 +48,7 @@ function App() {
     <>
       {step === 0 && <Search onNextStep={onNextStep} />}
       {step === 1 && <Carousel location={location} days={days} priceRange={priceRange} onNextStep={onNextStep}/>}
-      {step === 2 && <Itinerary apiPayload={apiPayload} onNextStep={onNextStep}/>}
+      {step === 2 && <Itinerary location={location} days={days} priceRange={priceRange} acceptedCards={acceptedCards} rejectedCards={rejectedCards} onNextStep={onNextStep}/>}
     </>
   );
 }

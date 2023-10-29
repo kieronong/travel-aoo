@@ -3,9 +3,9 @@ import './styles.css'
 
 class Counter extends Component {
   constructor(props) {
+    const { curValue, changeValue } = props;
     super(props);
     this.inputRef = React.createRef();
-    this.state = { curValue: 1 };
   }
 
   changeValue = (newValue) => {
@@ -13,7 +13,7 @@ class Counter extends Component {
   }
 
   handleValueChange = (newValue, isField = false) => { // Provide a default value for isField
-    let curValue = this.state.curValue;
+    let val = this.curValue;
 
     newValue = parseInt(newValue, 10);
 
@@ -28,12 +28,12 @@ class Counter extends Component {
       newValue = 1;
     }
     if (!isField) {
-      this.inputRef.current.style.transform = newValue > curValue ? 'translateY(-100%)' : 'translateY(100%)';
+      this.inputRef.current.style.transform = newValue > val ? 'translateY(-100%)' : 'translateY(100%)';
       this.inputRef.current.style.opacity = 0;
 
       setTimeout(() => {
         this.inputRef.current.style.transitionDuration = '0s';
-        this.inputRef.current.style.transform = newValue > curValue ? 'translateY(100%)' : 'translateY(-100%)';
+        this.inputRef.current.style.transform = newValue > val ? 'translateY(100%)' : 'translateY(-100%)';
         this.inputRef.current.style.opacity = 0;
         this.changeValue(newValue);
 
@@ -49,14 +49,12 @@ class Counter extends Component {
   }
 
   render() {
-    const { curValue } = this.state;
-
     return (
         <div className="container">
       <div className="counter">
         <button
           className="button"
-          onClick={() => { this.handleValueChange(curValue - 1) }}
+          onClick={() => { this.handleValueChange(this.curValue - 1) }}
           title="-1"
         >
           −
@@ -71,12 +69,12 @@ class Counter extends Component {
             }}
             ref={this.inputRef}
             type="text"
-            value={curValue}
+            value={this.curValue}
           />
         </div>
         <button
           className="button"
-          onClick={() => { this.handleValueChange(curValue + 1) }}
+          onClick={() => { this.handleValueChange(this.curValue + 1) }}
           title="+1"
         >
           +

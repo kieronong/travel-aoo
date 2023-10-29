@@ -13,6 +13,18 @@ import LocalDiningIcon from '@mui/icons-material/LocalDining';
 // Define the prop types
 interface ItineraryProps {
     onNextStep: () => Promise<void>;
+    location: string;
+    priceRange: number;
+    days: number;
+    acceptedCards: Card[];
+    rejectedCards: Card[];
+}
+
+interface Card {
+    imageURL: string;
+    name: string;
+    description: string;
+    rating: string;
 }
 
 interface Event {
@@ -63,7 +75,7 @@ const Description = styled.p``;
 // Sample data structure, you may replace this with your actual data fetching
 
 
-const Itinerary: React.FC<ItineraryProps> = ({ onNextStep }) => {
+const Itinerary: React.FC<ItineraryProps> = ({ onNextStep, location, days, priceRange, acceptedCards, rejectedCards }) => {
 
     const [isLoading, setIsLoading] = React.useState(true);
     const [eventList, setEventList] = React.useState<Event[]>([]);
@@ -96,6 +108,17 @@ const Itinerary: React.FC<ItineraryProps> = ({ onNextStep }) => {
             setIsLoading(false);
         };
         fetchCards();
+
+        const test = async () => {
+            try {
+                console.log("Hi")
+                const data = await convex.action(api.myFunctions.generate_itinerary,{city: "New York", price_high: 2, price_low: 0, days: 3, liked: [], disliked: [] })
+                console.log(data)
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        test()
     }, [])
 
     return (
@@ -104,16 +127,16 @@ const Itinerary: React.FC<ItineraryProps> = ({ onNextStep }) => {
             <ScreenContainer>
                 <Slideshow eventList={eventList}/>
                 <TimelineContainer>
-                    <Title>{title}</Title>
+                    <Title >{title}</Title>
                     <VerticalTimeline lineColor = 'rgb(33, 158, 188)'>
                         {eventList.map((event, index)=>(
                             <VerticalTimelineElement
                             key = {index}
                             className="vertical-timeline-element--work"
-                            contentStyle={{ background: 'rgb(202, 240, 248)', color: '#fff' }}
-                            contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
+                            contentStyle={{ background: 'rgb(127, 161, 163)', color: '#fff' }}
+                            contentArrowStyle={event.category === 'tourist_attraction' ? { borderRight: '7px solid  #64C3CE' } : { borderRight: '7px solid  #FF890B' } }
                             date="2011 - present"
-                            iconStyle={event.category === 'tourist_attraction' ? { background: 'rgb(142, 202, 230)', color: '#fff' , border: '1px dotted rgb (2, 48, 71'}: { background: 'rgb(255, 183, 3)', color: '#fff', border: '1px dotted rgb(251, 133, 0)' }}
+                            iconStyle={event.category === 'tourist_attraction' ? { background: '#64C3CE', color: '#fff' , border: '1px dotted rgb (2, 48, 71'}: { background: '#FF890B', color: '#fff', border: '1px dotted rgb(251, 133, 0)' }}
                             icon={event.category === 'tourist_attraction' ? <AttractionsIcon /> : <LocalDiningIcon />}
 
                         >
