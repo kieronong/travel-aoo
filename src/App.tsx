@@ -11,7 +11,7 @@ interface Card {
 }
 
 function App() {
-  const [step, setStep] = useState<number>(2);
+  const [step, setStep] = useState<number>(1);
   const [location, setLocation] = useState<string>('New York');
   const [days, setDays] = useState<number>(1);
   const [priceRange, setPriceRange] = useState<number>(2);
