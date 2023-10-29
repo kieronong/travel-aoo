@@ -8,7 +8,7 @@ interface SearchProps {
 
 const Search: React.FC<SearchProps> = ({ onNextStep }) => {    
     return (
-        <SearchBar onNextStep={onNextStep}/>
+        <SearchBar/>
     );
 };
 
