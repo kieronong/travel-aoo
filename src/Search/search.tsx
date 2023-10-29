@@ -1,5 +1,4 @@
 // SearchBar.js
-
 import React, { Component } from 'react';
 import './style.css';
 import Autosuggest from 'react-autosuggest';
@@ -84,15 +83,6 @@ class SearchBar extends Component {
   }
 
   render() {
-    const { location, suggestions } = this.state;
-    const inputProps = {
-      placeholder: 'Location',
-      value: location,
-      onChange: this.handleInputChange,
-      onFocus: this.handleFocus,
-      onBlur: this.handleBlur,
-    };
-
     const createPresetLocation = (name, photoURL) => {
       return (
         <div
@@ -202,14 +192,6 @@ class SearchBar extends Component {
         {createPresetLocation('Tokyo', 'https://media.cntraveler.com/photos/63482b255e7943ad4006df0b/16:9/w_2560%2Cc_limit/tokyoGettyImages-1031467664.jpeg')}
       </div>
       </div>
-      {!this.state.searchExpanded && (
- <div className="preset-locations">
- {createPresetLocation('Paris', 'https://res.klook.com/image/upload/Mobile/City/swox6wjsl5ndvkv5jvum.jpg')}
- {createPresetLocation('San Francisco', 'https://blog.urbanadventures.com/wp-content/uploads/2017/10/San-Fran-bridge.jpg')}
- {createPresetLocation('Tokyo', 'https://media.cntraveler.com/photos/63482b255e7943ad4006df0b/16:9/w_2560%2Cc_limit/tokyoGettyImages-1031467664.jpeg')}
-   </div>
-      )}
-     
     </div>
   );
 }
