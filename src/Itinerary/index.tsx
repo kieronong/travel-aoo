@@ -171,10 +171,10 @@ const Itinerary: React.FC<ItineraryProps> = ({ onNextStep, location, days, price
             try {
                 const data = await getItinerary({city: location, price_high: 5, price_low: -1, days: 3, liked: acceptedCards.map((card) => card.name), disliked: rejectedCards.map((card) => card.name) });
                 console.log(data)
-                // setEventList(data);
-                // setIsLoading(false);
+                console.log(isCancelled)
                 if (!isCancelled) {
                     console.log("Component is still mounted. Updating state.");
+                    isCancelled = true; // Cleanup the effect
                     setEventList(data);
                     setIsLoading(false);
                 } else {
@@ -191,7 +191,6 @@ const Itinerary: React.FC<ItineraryProps> = ({ onNextStep, location, days, price
         fetchCards();
 
         return () => {
-            isCancelled = true; // Cleanup the effect
             clearTimeout(timeoutId); // Clear the timeout
         };
 
