@@ -100,6 +100,7 @@ const Itinerary: React.FC<ItineraryProps> = ({ onNextStep, location, days, price
     return (
         <>
             {isLoading && <ItineraryLoading />}
+            {!isLoading &&
             <ScreenContainer>
                 <Slideshow eventList={eventList}/>
                 <TimelineContainer>
@@ -125,6 +126,7 @@ const Itinerary: React.FC<ItineraryProps> = ({ onNextStep, location, days, price
                         </VerticalTimeline>
                 </TimelineContainer>
             </ScreenContainer>
+}
         </>
     );
 };
