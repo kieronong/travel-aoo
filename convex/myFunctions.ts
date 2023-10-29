@@ -15,34 +15,17 @@ type AttractionRow = {
   rating: number;
 };
 
-
 export const get_attractions = query({
     args:{city:v.string(),price_high:v.float64(), price_low:v.float64()},
     handler: async (ctx,args) => {
       const places = await ctx.db
       .query("attractions")
       .filter((q) => q.eq(q.field("city"), args.city))
-      .filter((q) => q.eq(q.field("category"), 'tourist_attraction'))
       .filter((q) => q.lte(q.field("price_point"), args.price_high))
       .filter((q) => q.gte(q.field("price_point"), args.price_low))
       .collect();
-
-      const food = await ctx.db
-      .query("attractions")
-      .filter((q) => q.eq(q.field("city"), args.city))
-      .filter((q) => q.eq(q.field("category"), 'restaurant'))
-      .filter((q) => q.lte(q.field("price_point"), args.price_high))
-      .filter((q) => q.gte(q.field("price_point"), args.price_low))
-      .collect();
-      // do something with `tasks`aa
-      const data = []
-      
-      for(let i = 0; i<Math.min(food.length,places.length);i++){
-        data.push(food[i])
-        data.push(places[i])
-
-      }
-      return data
+      // do something with `tasks`
+      return places
     },
   });
 
@@ -54,6 +37,7 @@ export const get_names_and_descriptions = action({
   },
   handler: async (ctx, args) => {
     // Call the `get_attractions` function.
+    console.log("working")
     const attractions: AttractionRow[] = await ctx.runQuery(api.myFunctions.get_attractions, {
       city: args.location,
       price_high: args.price_high,
@@ -90,7 +74,6 @@ export const get_location = query({
     },
     handler: async (ctx, args) => {
       console.log("start")
-      console.log(args)
       // Step 1: Get names and descriptions
       const attractions = await ctx.runAction(api.myFunctions.get_names_and_descriptions, {
         location: args.city,
@@ -101,12 +84,12 @@ export const get_location = query({
       console.log(attractions)
   
       // Construct the GPT prompt string using attractions and liked/disliked locations
-      let prompt = `I am planning a travel itinerary to ${args.city}. Here are the attractions:\n\n`;
+      let prompt = `[INST] I am planning a travel itinerary to ${args.city}. Here are the attractions:\n\n`;
       prompt += attractions.join("\n");
-      prompt += `\n\nI do not want to go to:\n\n${args.disliked.slice(0, 5).join(", ")}.\n\nI do want to go to:\n\n${args.liked.slice(0, 5).join(", ")}.\n\n\n\n\n`;
-      prompt += `Given this, Provide me a list of ${args.days * 3} attraction names I'd enjoy for a travel itinerary in ${args.city}, in a numbered list format.`;
-      console.log(prompt)
+      prompt += `\n\nI do not want to go to:\n\n${args.disliked.slice(0, 3).join(", ")}.\n\nI do want to go to:\n\n${args.liked.slice(0, 3).join(", ")}.\n\n\n\n\n`;
+      prompt += `Given this, Provide me a list of ${args.days * 3} attraction names I'd enjoy for a travel itinerary in ${args.city}, in a numbered list format. [/INST]`;
 
+      console.log(prompt)
 
       // Step 2: Use this prompt with GPT (this step is not provided here since the exact details depend on how you've integrated GPT with your backend)
       const options = {
@@ -114,21 +97,22 @@ export const get_location = query({
         headers: {
           accept: 'application/json',
           'content-type': 'application/json',
-          Authorization: 'Bearer 31d25c3ebfac1ae6c49d94593b59b29367100dcbe7481c0e35777f64c4f71501'
+          Authorization: 'Bearer 937ed1322469dd813d62d864e85061fa04db38c672b16122d2a3ce782a3766dc'
         },
         body: JSON.stringify({
           model: 'togethercomputer/llama-2-70b-chat',
           prompt: prompt,
-          max_tokens: 512,
+          max_tokens: args.days * 32,
           stop: '###',
-          temperature: 0,
+          temperature: 0.1,
           top_p: 0.7,
           top_k: 50,
-          repetition_penalty: 0
+          repetition_penalty: 1
         })
       };
       let parsedResults: string[] = []; // Variable to store the parsed results
       let isParsedResultsValid = false;
+      let results: ItineraryItem[] = [];
 
       do {
         // Step 2: Use this prompt with GPT...
@@ -142,17 +126,18 @@ export const get_location = query({
           .catch(err => console.error(err));
 
         // Validation:
-        if (parsedResults.length >= 1) {
+        if (parsedResults.length >= 9) {
           isParsedResultsValid = true;
         }
-      } while (!isParsedResultsValid);
-      
-      let results: ItineraryItem[] = []
-      console.log(parsedResults)
-      results = (await ctx.runAction(api.myFunctions.get_one_itinerary, {
-        names: parsedResults,
-      }));
 
+        console.log(parsedResults)
+        results = (await ctx.runAction(api.myFunctions.get_one_itinerary, {
+          names: parsedResults,
+        }));
+
+        
+      } while (!isParsedResultsValid && results.length < 9);
+    
       return results;
     },
   });
@@ -188,16 +173,16 @@ export const get_location = query({
       names: v.array(v.string()),
     },
     handler: async (ctx, args) => {
+      // let prompt = 'I am planning a travel itinerary to Paris. Here\'s some attractions:\n\nThe Frederick Hotel: Buzzy Tribeca hotel offering snug, stylish rooms with free Wi-Fi, plus a modern Italian restaurant.\nNOMO SOHO: Luxe rooms & suites in a hip lodging with a swanky restaurant, a glam cocktail lounge & a 24/7 gym.\nBeckett\'s Bar & Grill: Sports on big screen TVs, draft beer & pub food in a historic building that\'s stood since 1603.\nGilligan\'s: Design-focused property famed for its artistic public spaces, upscale rooms & hip bar scene.\nTribeca Grill: Buzzy Robert De Niro-owned mainstay for innovative New American cuisine & a stellar wine list.\nShake Shack Battery Park City: Hip, counter-serve chain for gourmet takes on fast-food classics like burgers & frozen custard.\nBalthazar: Iconic French brasserie with steak frites, brunch & pastries in a classy space with red banquettes.\nLocanda Verde: TriBeCa hot spot showcasing rustic Italian cuisine in a lively atmosphere.\nThe River Café: Landmark eatery, newly renovated, offering a New American menu & stunning views of Manhattan.\nMacao Trading Company: A bi-level, 1940s gambling parlor sets an exotic backdrop for Chinese-Portuguese small plates.\nLombardi\'s Pizza: Landmark NoLita restaurant serving coal-fired, thin-crust Neapolitan pizza since 1905.\nBubby\'s: Weekend brunch hot spot serving homestyle American eats with many locally sourced ingredients.\nCipriani Downtown NYC: Upscale scene where an international crowd tucks into Italian food chased with Bellinis.\nDelmonico\'s: A New York classic opened in 1837, serving prime beef in old-time environs.\nM1-5 Lounge: Roomy, dimly lit, group-friendly bar with a relaxed vibe, private booths & a bar-food menu.\nSarabeth\'s: Posh chain serving American fare, including brunch, dinner & creative cocktails.\nLa Esquina: Sceney Mexican spot with no-frills taqueria, cafe & exclusive basement brasserie/tequila bar.\nWolfgang\'s Steakhouse: Upscale chophouse chain serving dry-aged steaks, seafood & wine in an elegant setting.\nGolden Unicorn: Massive, bustling Cantonese mainstay ferrying a wide variety of dim sum via fast-moving carts.\nFerrara Bakery & Cafe: Venerable outfit offering its famed cannoli & other Italian desserts, plus espresso, since 1892.\nThe Frederick Hotel: Buzzy Tribeca hotel offering snug, stylish rooms with free Wi-Fi, plus a modern Italian restaurant.\nNOMO SOHO: Luxe rooms & suites in a hip lodging with a swanky restaurant, a glam cocktail lounge & a 24/7 gym.\nBeckett\'s Bar & Grill: Sports on big screen TVs, draft beer & pub food in a historic building that\'s stood since 1603.\nGilligan\'s: Design-focused property famed for its artistic public spaces, upscale rooms & hip bar scene.\nTribeca Grill: Buzzy Robert De Niro-owned mainstay for innovative New American cuisine & a stellar wine list.\nShake Shack Battery Park City: Hip, counter-serve chain for gourmet takes on fast-food classics like burgers & frozen custard.\nBalthazar: Iconic French brasserie with steak frites, brunch & pastries in a classy space with red banquettes.\nLocanda Verde: TriBeCa hot spot showcasing rustic Italian cuisine in a lively atmosphere.\nThe River Café: Landmark eatery, newly renovated, offering a New American menu & stunning views of Manhattan.\nMacao Trading Company: A bi-level, 1940s gambling parlor sets an exotic backdrop for Chinese-Portuguese small plates.\nLombardi\'s Pizza: Landmark NoLita restaurant serving coal-fired, thin-crust Neapolitan pizza since 1905.\nBubby\'s: Weekend brunch hot spot serving homestyle American eats with many locally sourced ingredients.\nCipriani Downtown NYC: Upscale scene where an international crowd tucks into Italian food chased with Bellinis.\nDelmonico\'s: A New York classic opened in 1837, serving prime beef in old-time environs.\nM1-5 Lounge: Roomy, dimly lit, group-friendly bar with a relaxed vibe, private booths & a bar-food menu.\nSarabeth\'s: Posh chain serving American fare, including brunch, dinner & creative cocktails.\nLa Esquina: Sceney Mexican spot with no-frills taqueria, cafe & exclusive basement brasserie/tequila bar.\nWolfgang\'s Steakhouse: Upscale chophouse chain serving dry-aged steaks, seafood & wine in an elegant setting.\nGolden Unicorn: Massive, bustling Cantonese mainstay ferrying a wide variety of dim sum via fast-moving carts.\nFerrara Bakery & Cafe: Venerable outfit offering its famed cannoli & other Italian desserts, plus espresso, since 1892.Given this, Provide me a lists of attractions for a travel itinerary in Paris, in a numbered list format.'
       let prompt = `I am planning a travel itinerary to ${args.city}. Here's my itinerary:\n\n ${args.names.join(", ")}.\n\n}`;
       prompt += `Think of one, creative, quirky name for this itinerary, and output as a JSON in the format {name: "name"}.`;
   
-      // Step 2: Use this prompt with GPT (this step is not provided here since the exact details depend on how you've integrated GPT with your backend)
       const options = {
         method: 'POST',
         headers: {
           accept: 'application/json',
           'content-type': 'application/json',
-          Authorization: 'Bearer 31d25c3ebfac1ae6c49d94593b59b29367100dcbe7481c0e35777f64c4f71501'
+          Authorization: 'Bearer 937ed1322469dd813d62d864e85061fa04db38c672b16122d2a3ce782a3766dc'
         },
         body: JSON.stringify({
           model: 'togethercomputer/llama-2-70b-chat',
@@ -215,6 +200,7 @@ export const get_location = query({
       await fetch('https://api.together.xyz/inference', options)
         .then(response => response.json())
         .then(data => {
+          console.log(data)
           output = extractName(data?.output?.choices[0]?.text || "");
         })
         .catch(err => console.error(err));
@@ -252,8 +238,8 @@ export const get_location = query({
   
         if (!attraction) continue;
         console.log(name, attraction)
-  
         if (attraction.length === 0) continue;
+  
         output.push({
           day: `Day ${day}`,
           time: timeWindows[timeIndex](),  // Using the random time generation function here
@@ -288,21 +274,16 @@ function formatListOfLists(lists: string[][]): string {
   function parseItineraries(str: string): string[] {
     // Split by the "Itinerary" keyword to separate different itineraries
     console.log(str)
-    const itineraryParts = str.split('Itinerary').slice(1);
+    const regex = /\d+\.\s*([^\n]+)/g;
+    let match;
+    const results: string[] = [];
 
-    const itineraries: string[][] = [];
+    while ((match = regex.exec(str)) !== null) {
+        results.push(match[1]);
+    }
 
-    itineraryParts.forEach(part => {
-        // Extract items from each itinerary part and trim them
-        const items = part.split('\n')
-                          .filter(line => line.trim().match(/^\d\./))
-                          .map(line => line.split('. ')[1].trim());
+    return results;
 
-        itineraries.push(items);
-    });
-
-    console.log(itineraries)
-    return itineraries.flat();
 }
   
 //   export const get_location_data = action({

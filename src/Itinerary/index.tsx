@@ -166,14 +166,19 @@ const Itinerary: React.FC<ItineraryProps> = ({ onNextStep, location, days, price
                 setEventList(testData);
                 setIsLoading(false);
             }
-        }, 15000); // 15 seconds timeout
+        }, 30000); // 15 seconds timeout
         const fetchCards = async () => {
             try {
-                const data = await getItinerary({city: location, price_high: priceRange + 1, price_low: 0, days: days, liked: acceptedCards.map((card) => card.name), disliked: rejectedCards.map((card) => card.name) });
+                const data = await getItinerary({city: location, price_high: 5, price_low: -1, days: 3, liked: acceptedCards.map((card) => card.name), disliked: rejectedCards.map((card) => card.name) });
                 console.log(data)
+                // setEventList(data);
+                // setIsLoading(false);
                 if (!isCancelled) {
+                    console.log("Component is still mounted. Updating state.");
                     setEventList(data);
                     setIsLoading(false);
+                } else {
+                    console.log("Component is unmounted. Not updating state.");
                 }
             } catch (error) {
                 if (!isCancelled) {
