@@ -110,10 +110,10 @@ const Itinerary: React.FC<ItineraryProps> = ({ onNextStep }) => {
                             <VerticalTimelineElement
                             key = {index}
                             className="vertical-timeline-element--work"
-                            contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+                            contentStyle={{ background: 'rgb(202, 240, 248)', color: '#fff' }}
                             contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
                             date="2011 - present"
-                            iconStyle={event.category === 'tourist_attraction' ? { background: 'rgb(142, 202, 230)', color: '#fff' }: { background: 'rgb(255, 183, 3)', color: '#fff' }}
+                            iconStyle={event.category === 'tourist_attraction' ? { background: 'rgb(142, 202, 230)', color: '#fff' , border: '1px dotted rgb (2, 48, 71'}: { background: 'rgb(255, 183, 3)', color: '#fff', border: '1px dotted rgb(251, 133, 0)' }}
                             icon={event.category === 'tourist_attraction' ? <AttractionsIcon /> : <LocalDiningIcon />}
 
                         >
