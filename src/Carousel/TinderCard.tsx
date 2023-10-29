@@ -1,95 +1,129 @@
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import React, { useEffect } from 'react';
+import styled, { keyframes, css } from 'styled-components';
 import star from './star.png';
+import postcard from './postcard.jpg';
 
 interface TinderCardProps {
-    className: string;
+    index: number,
+    swipeDirection: string;
     imageURL: string;
     name: string;
     description: string;
-    rating: number;
+    rating: string;
 }
 
-const CardContainer = styled.div<{ swipeDirection?: string }>`
-    width: 60vw;
-    height: 70vh;
-    position: relative;
+const CardContainer = styled.div<{ swipeDirection: string, backgroundImage?: string, index: number }>`
+    aspect-ratio: 5/3.28;
+    height: 65vh;
+    position: absolute;
     overflow: hidden; 
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); 
-
-    ${({ swipeDirection }) => swipeDirection === 'right' && `
-        animation: ${swipeRightAnimation} 0.5s forwards;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    background-image: ${({ backgroundImage }) => `url(${backgroundImage})`};
+    background-size: cover;
+    background-position: center;
+    transform: ${({ index }) => index ? `translate(-${index * 10}px, ${-index * 10}px)` : 'none'};
+    z-index: ${({ index }) => 10 - index };
+    ${({ swipeDirection }) => swipeDirection === 'right' && css`
+        z-index: 10;
+        animation: ${swipeRightAnimation} 1s forwards;
     `}
-
-    ${({ swipeDirection }) => swipeDirection === 'left' && `
-        animation: ${swipeLeftAnimation} 0.5s forwards;
+    ${({ swipeDirection }) => swipeDirection === 'left' && css`
+        z-index: 10;
+        animation: ${swipeLeftAnimation} 1s forwards;
     `}
 `;
 
-const CardImage = styled.img`
-    width: 100%; 
-    height: 100%;
-    object-fit: cover; // Ensure the image covers the container fully without stretching
+const ContentContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    height: 80%;
+    bottom: 0px;
     position: absolute;
-    z-index: -1; // Place the image behind the text content
-`;
-
-const InfoContainer = styled.div`
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.8); // Slight transparency
-    color: black;
-    padding: 20px;
 `;
 
 const Name = styled.h3`
     font-size: 2em;
-    margin: 0;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+`;
+
+const CardImage = styled.img`
+    width: 60%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    position: relative;
+    bottom: 5%;
+`;
+
+const ImageContainer = styled.div`
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+const AnotherContainer = styled.div`
+    width: 50%
+`;
+
+const TextContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 50px;
 `;
 
 const Description = styled.p`
-    margin: 5px 0;
+    flex: 1;
+    font-size: 1.7em;
 `;
 
 const Rating = styled.div`
+    flex: 1;
     display: flex;
     align-items: center;
-    font-size: 0.8em;
+    font-size: 1.7em;
 `;
 
 const StarImage = styled.img`
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     margin-right: 5px;
 `;
 
 const swipeRightAnimation = keyframes`
     100% {
-        transform: translateX(100%);
-        opacity: 0;
+        transform: translateX(200%);
     }
 `;
 
 const swipeLeftAnimation = keyframes`
     100% {
-        transform: translateX(-100%);
-        opacity: 0;
+        transform: translateX(-200%);
     }
 `;
 
-const TinderCard: React.FC<TinderCardProps> = ({ className, imageURL, name, description, rating }) => {
+const TinderCard: React.FC<TinderCardProps> = ({ index, swipeDirection, imageURL, name, description, rating }) => {
+
+
     return (
-        <CardContainer swipeDirection={className}>
-            <CardImage src={imageURL} alt="background" />
-            <InfoContainer>
-                <Rating>
-                    <StarImage src={star} alt="star" /> {rating}
-                </Rating>
+        <CardContainer backgroundImage={postcard} swipeDirection={swipeDirection} index={index}>
                 <Name>{name}</Name>
-                <Description>{description}</Description>
-            </InfoContainer>
+                <ContentContainer>
+                    <ImageContainer><CardImage src={imageURL} /></ImageContainer>
+                    <AnotherContainer>
+                        <TextContainer>
+                            <Rating>
+                                <StarImage src={star} alt="star" /> {rating}
+                            </Rating>
+                            <Description>{description}</Description>
+                        </TextContainer>
+                    </AnotherContainer>
+                </ContentContainer>
         </CardContainer>
     );
 };

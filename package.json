@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@react-google-maps/api": "^2.19.2",
+    "convex": "^1.5.1",
     "formik": "^2.4.5",
     "formik-stepper": "^2.2.1",
     "google-map-react": "^2.2.1",

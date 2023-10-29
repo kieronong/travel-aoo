@@ -1,10 +1,14 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import {useQuery, useConvex } from "convex/react"
 
 import TinderCard from './TinderCard'
 import CarouselLoading from './CarouselLoading'
 import accept from './accept.png'
 import reject from './reject.png'
+import next from './next.png'
+import { api } from "../../convex/_generated/api"
+import { number } from 'yup';
 
 // Define the prop types
 interface CarouselProps {
@@ -18,51 +22,89 @@ interface Card {
     imageURL: string;
     name: string;
     description: string;
-    rating: number;
+    rating: string;
 }
 
 const defaultCards: Card[] = [
-    {imageURL: "https://thumbs.dreamstime.com/b/paris-eiffel-tower-river-seine-sunset-france-one-most-iconic-landmarks-107376702.jpg", 
-    name: "Eiffel Tower", 
-    description: "The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France.", 
-    rating: 4.5},
-    {imageURL: "https://www.travelandleisure.com/thmb/f-3j5QnS8FRCIPQGeitCxVDKVJA=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/3-paris-social-niche1115-470f7989143d49f7a3def0ac3940988d.jpg", 
-    name: "Arc de Triomphe", 
-    description: "The Arc de Triomphe is here.", 
-    rating: 4.5},
-    {imageURL: "https://www.travelandleisure.com/thmb/ERDlxa-28z8DC3s0rAtwLVVzGNw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Louvre-Museum-Paris-France-SECRETS0415_1-ace6b2a941ee499ca01aa4feaf10f5fc.jpg", 
-    name: "The Louvre", 
-    description: "The Louvre is a thing in a place.", 
-    rating: 4.5},
+
 ]
 
 const CenterContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+    width: 100%;
+    left: 50%;
+    top: 20%;
+    transform: translate(-28%, 0%);
+    position: absolute
 `;
 
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-`;
-
-const Button = styled.button`
-    width: 50px;
-    height: 50px;
+const AcceptButton = styled.button`
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    bottom: 10%;
+    right: 43vw;
+    transform: translate(50%, 0);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: ${(props) => props.color || 'white'};
+    background-color: #7BBE8E;
     border: none;
     cursor: pointer;
-    
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,0.2);
+    transition: background-color 0.3s, width 0.3s, height 0.3s;
     &:hover {
-        opacity: 0.9;
+        background-color: green;
+        width: 120px;
+        height: 120px;
+    }
+`;
+
+const RejectButton = styled.button`
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    bottom: 10%;
+    left: 43vw;
+    transform: translate(-50%, 0);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FF758A;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,0.2);
+    transition: background-color 0.3s, width 0.3s, height 0.3s;
+    &:hover {
+        background-color: #FF2446;
+        width: 120px;
+        height: 120px;
+    }
+`;
+
+const ContinueButton = styled.button`
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    bottom: 50%;
+    transform: translate(0, 50%);
+    right: 2%;
+    border-radius: 50%;
+    font-size: 1em;
+    font-family: 'Rubik';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: light-blue;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,0.2);
+    transition: background-color 0.3s, width 0.3s, height 0.3s;
+    &:hover {
+        background-color: blue;
+        width: 120px;
+        height: 120px;
     }
 `;
 
@@ -70,6 +112,10 @@ const IconImage = styled.img`
     width: 30px;
     height: 30px;
     margin: 10px;
+`;
+
+const StackedCardsContainer = styled.div`
+    position: relative;
 `;
 
 
@@ -80,30 +126,24 @@ const Carousel: React.FC<CarouselProps> = ({ location, days, priceRange, onNextS
     const [rejectedCards, setRejectedCards] = React.useState<Card[]>([]);
     const [acceptedCards, setAcceptedCards] = React.useState<Card[]>([]);
     const [isLoading, setIsLoading] = React.useState(true);
-    const [animationClass, setAnimationClass] = React.useState('');
+    const [swipeDirection, setSwipeDirection] = React.useState<string | null>(null);
+    const convex = useConvex();
 
     const handleAccept = () => {
-        setCardIndex(cardIndex + 1);
-        if (cardIndex === cardList.length - 1) {
+        if (cardIndex === cardList.length - 2) {
             handleSubmit();
         }
-        setAnimationClass('swipeRight');
-        setTimeout(() => {
-            setAnimationClass('');
+        setSwipeDirection('right')
+
             setCardIndex(cardIndex + 1);
-        }, 300);
     };
 
     const handleReject = () => {
-        setCardIndex(cardIndex + 1);
-        if (cardIndex === cardList.length - 1) {
+        if (cardIndex === cardList.length - 2) {
             handleSubmit();
         }
-        setAnimationClass('swipeLeft');
-        setTimeout(() => {
-            setAnimationClass('');
-            setCardIndex(cardIndex + 1);
-        }, 300);
+        setSwipeDirection('left')
+        setCardIndex(cardIndex + 1);
     };
 
     const handleSubmit = () => {
@@ -119,18 +159,54 @@ const Carousel: React.FC<CarouselProps> = ({ location, days, priceRange, onNextS
         onNextStep(apiPayload);
     };
 
+    const renderCards = () => {
+        return cardList.slice(cardIndex, cardIndex + 5).map((card, index) => (
+            <TinderCard
+                index={index}
+                swipeDirection={(index === 0 && swipeDirection) ? swipeDirection : ''} // Only animate the top card
+                key={card.name}
+                imageURL={card.imageURL}
+                name={card.name}
+                description={card.description}
+                rating={card.rating}
+            />
+        ));
+    };
+
     // Fill with actual API call
     useEffect(() => {
         const fetchCards = async () => {
             try {
-                // const response = await fetch(`https://api.example.com/location=${location}&days=${days}&priceRange=${priceRange}`);
-                // const data = await response.json();
-                // setCardList(data);
+                let price_high = 0
+                let price_low = 0
+                if (priceRange === 0) {
+                price_high = 1
+                price_low = 0
+                } else if (priceRange === 1){
+                price_high = 2
+                price_low = 0
+                } else if (priceRange === 2){
+                price_high = 3
+                price_low = 0
+                } 
+                const data = await convex.query(api.backend_api.get_attractions,{city: location, price_high: price_high, price_low: price_low })
+                const newCardList = data.map((attraction) => {
+                    let rating = String(attraction.rating)
+                    if (rating.length < 3) {
+                        rating = rating + ".0"
+                    }
+                    return {
+                        imageURL: attraction.photo_url,
+                        name: attraction.name,
+                        description: attraction.description,
+                        rating: rating,
+                    }
+                })
+                setCardList(newCardList)
+                setIsLoading(false);
             } catch (error) {
                 console.error(error);
             }
-            // TODO: Remove this timeout
-            setTimeout(() => setIsLoading(false), 0);
         };
         fetchCards();
     }, [])
@@ -140,24 +216,19 @@ const Carousel: React.FC<CarouselProps> = ({ location, days, priceRange, onNextS
             {isLoading && <CarouselLoading />}
             {cardList[cardIndex] && (
                 <CenterContainer>
-                <TinderCard 
-                    className={animationClass}
-                    imageURL={cardList[cardIndex].imageURL} 
-                    name={cardList[cardIndex].name}
-                    description={cardList[cardIndex].description}
-                    rating={cardList[cardIndex].rating}
-                />
-                <ButtonContainer>
-                <Button color="red" onClick={handleReject}>
-                    <IconImage src={reject} />
-                </Button>
-                <Button color="green" onClick={handleAccept}>
-                    <IconImage src={accept} />
-                </Button>
-                </ButtonContainer>
-                {(cardIndex > 10) && <button onClick={handleSubmit}>I'm Ready</button>}
+                <StackedCardsContainer>
+                    {renderCards()}
+                </StackedCardsContainer>
             </CenterContainer>
+            
             )}
+            <RejectButton onClick={handleReject}>
+                    <IconImage src={reject} />
+                </RejectButton>
+                <AcceptButton onClick={handleAccept}>
+                    <IconImage src={accept} />
+                </AcceptButton>
+                {(cardIndex > 10) && <ContinueButton onClick={handleSubmit}><IconImage src={next} /></ContinueButton>}
         </div>
     );
 };

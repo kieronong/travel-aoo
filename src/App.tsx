@@ -4,10 +4,10 @@ import Carousel from './Carousel';
 import Itinerary from './Itinerary'; 
 
 function App() {
-  const [step, setStep] = useState<number>(0);
-  const [location, setLocation] = useState<string>('');
-  const [days, setDays] = useState<number>(0);
-  const [priceRange, setPriceRange] = useState<number>(0);
+  const [step, setStep] = useState<number>(1);
+  const [location, setLocation] = useState<string>('New York');
+  const [days, setDays] = useState<number>(1);
+  const [priceRange, setPriceRange] = useState<number>(2);
   const [apiPayload, setApiPayload] = useState<string>(''); 
 
   const onNextStep = async (location?: string, days?: number, priceRange?: number, apiPayload?: string) => {
@@ -35,7 +35,6 @@ function App() {
 
   return (
     <>
-      <button onClick={() => {onNextStep()}}>DEBUG — NEXT STEP</button>
       {step === 0 && <Search onNextStep={onNextStep} />}
       {step === 1 && <Carousel location={location} days={days} priceRange={priceRange} onNextStep={onNextStep}/>}
       {step === 2 && <Itinerary apiPayload={apiPayload} onNextStep={onNextStep}/>}
