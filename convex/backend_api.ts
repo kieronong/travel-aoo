@@ -10,6 +10,7 @@ export const get_attractions = query({
       .filter((q) => q.eq(q.field("city"), args.city))
       .filter((q) => q.lte(q.field("price_point"), args.price_high))
       .filter((q) => q.gte(q.field("price_point"), args.price_low))
+      // .filter((q) => q.eq(q.field("category"), args.category))
       .collect();
       // do something with `tasks`
       return places

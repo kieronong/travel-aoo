@@ -35,7 +35,7 @@ def get_place_details(api_key, place_id):
     # Extract the description or name if the description isn't available
     if 'editorial_summary' in place_details:
         return  place_details['editorial_summary']['overview']
-    return 'No summary available for this place'
+    return ''
 
 
 
@@ -72,6 +72,9 @@ def extract_details(place, city, cat):
     price_point = place.get("price_level", -1)
     # Google Places API does not provide a direct "description", but user rating is available
     rating = place.get("rating", -1.0)
+    descriptions = get_place_details(API_KEY,place.get('place_id'))
+    if rating < 3.0 or not descriptions:
+        return "Invalid"
     photo_ref = 'https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled.png'
     if 'photos' in place and len(place['photos'])>0:
         photo_ref = place['photos'][0]['photo_reference']
@@ -102,19 +105,29 @@ data = []
 for city in locations.keys():
     lat = locations[city][0]
     lang = locations[city][1]
+    seen = []
     print(city,lat,lang)
-    food_places = get_places_nearby(API_KEY, lat, lang, "restaurant", 400, 30)
+    food_places = get_places_nearby(API_KEY, lat, lang, "restaurant", 50000, 30)
     food_places_details = [extract_details(place, city, "restaurant") for place in food_places]
-
-    attraction_places = get_places_nearby(API_KEY, lat, lang, "tourist_attraction", 400, 30)
-    attraction_places_details = [extract_details(place, city, "tourist_attraction") for place in attraction_places]
-    data += food_places_details
-    data += attraction_places_details
+    for j in food_places:
+        res = extract_details(j, city, "restaurant")
+        print(res)
+        if not res == "Invalid" and not res['name'] in seen:
+            seen.append(res['name'])
+            data.append(res)
+        
+    attraction_places = get_places_nearby(API_KEY, lat, lang, "tourist_attraction", 50000, 30)
+    for i in attraction_places:
+        res = extract_details(i, city, "tourist_attraction")
+        if not res == "Invalid" and not res['name'] in seen:
+            seen.append(res['name'])
+            data.append(res)
+   
     # data += attraction_places_details
 # with open('starting_data.json', 'w') as file:
 #     json.dump(data, file)
 
-with open('final_data.jsonl', 'w') as jsonl_file:
+with open('kmn.jsonl', 'w') as jsonl_file:
     for entry in data:
         print(entry['city'])
         jsonl_file.write(json.dumps(entry) + '\n')

@@ -8,7 +8,6 @@ import accept from './accept.png'
 import reject from './reject.png'
 import next from './next.png'
 import { api } from "../../convex/_generated/api"
-import { number } from 'yup';
 
 // Define the prop types
 interface CarouselProps {
@@ -134,8 +133,9 @@ const Carousel: React.FC<CarouselProps> = ({ location, days, priceRange, onNextS
             handleSubmit();
         }
         setSwipeDirection('right')
+        setAcceptedCards([...acceptedCards, cardList[cardIndex]]);
+        setCardIndex(cardIndex + 1);
 
-            setCardIndex(cardIndex + 1);
     };
 
     const handleReject = () => {
@@ -143,6 +143,7 @@ const Carousel: React.FC<CarouselProps> = ({ location, days, priceRange, onNextS
             handleSubmit();
         }
         setSwipeDirection('left')
+        setRejectedCards([...rejectedCards, cardList[cardIndex]]);
         setCardIndex(cardIndex + 1);
     };
 
@@ -178,16 +179,16 @@ const Carousel: React.FC<CarouselProps> = ({ location, days, priceRange, onNextS
         const fetchCards = async () => {
             try {
                 let price_high = 0
-                let price_low = 0
+                let price_low = -1
                 if (priceRange === 0) {
                 price_high = 1
-                price_low = 0
+                price_low = -1
                 } else if (priceRange === 1){
                 price_high = 2
-                price_low = 0
+                price_low = -1
                 } else if (priceRange === 2){
                 price_high = 3
-                price_low = 0
+                price_low = -1
                 } 
                 const data = await convex.query(api.backend_api.get_attractions,{city: location, price_high: price_high, price_low: price_low })
                 const newCardList = data.map((attraction) => {
