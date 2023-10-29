@@ -89,19 +89,25 @@ export const get_location = query({
       days: v.number(),
     },
     handler: async (ctx, args) => {
+      console.log("start")
+      console.log(args)
       // Step 1: Get names and descriptions
       const attractions = await ctx.runAction(api.myFunctions.get_names_and_descriptions, {
         location: args.city,
         price_high: args.price_high,  // adjust as necessary
         price_low: args.price_low,      // adjust as necessary
       });
+
+      console.log(attractions)
   
       // Construct the GPT prompt string using attractions and liked/disliked locations
-      let prompt = `I am planning a travel itinerary to ${args.city}. Here's some attractions:\n\n`;
+      let prompt = `I am planning a travel itinerary to ${args.city}. Here are the attractions:\n\n`;
       prompt += attractions.join("\n");
-      prompt += `\n\nI do not want to go to:\n\n${args.disliked.join(", ")}.\n\nI do want to go to:\n\n${args.liked.join(", ")}.\n\n\n\n\n`;
-      prompt += `Given this, Provide me 3 different lists of locations for a travel itinerary. Each itinerary should have ${args.days * 3} or more locations, and must not contain the locations I don't want to go to. The list must contain only location names, are numbered, and there must be at least ${args.days * 3} locations.`;
+      prompt += `\n\nI do not want to go to:\n\n${args.disliked.slice(0, 5).join(", ")}.\n\nI do want to go to:\n\n${args.liked.slice(0, 5).join(", ")}.\n\n\n\n\n`;
+      prompt += `Given this, Provide me a list of ${args.days * 3} attraction names I'd enjoy for a travel itinerary in ${args.city}, in a numbered list format.`;
       console.log(prompt)
+
+
       // Step 2: Use this prompt with GPT (this step is not provided here since the exact details depend on how you've integrated GPT with your backend)
       const options = {
         method: 'POST',
@@ -113,7 +119,7 @@ export const get_location = query({
         body: JSON.stringify({
           model: 'togethercomputer/llama-2-70b-chat',
           prompt: prompt,
-          max_tokens: 2048,
+          max_tokens: 512,
           stop: '###',
           temperature: 0,
           top_p: 0.7,
@@ -121,7 +127,7 @@ export const get_location = query({
           repetition_penalty: 0
         })
       };
-      let parsedResults: string[][] = []; // Variable to store the parsed results
+      let parsedResults: string[] = []; // Variable to store the parsed results
       let isParsedResultsValid = false;
 
       do {
@@ -130,27 +136,21 @@ export const get_location = query({
           .then(response => response.json())
           .then(data => {
             const output = data?.output?.choices[0]?.text || "";
+            console.log(data)
             parsedResults = parseItineraries(output);
-            console.log(parsedResults)
           })
           .catch(err => console.error(err));
 
         // Validation:
-        if (parsedResults.length === 3) {
+        if (parsedResults.length >= 1) {
           isParsedResultsValid = true;
         }
       } while (!isParsedResultsValid);
       
-      const results: ItineraryItem[][] = []
+      let results: ItineraryItem[] = []
       console.log(parsedResults)
-      results.push(await ctx.runAction(api.myFunctions.get_one_itinerary, {
-        names: parsedResults[0],
-      }));
-      results.push(await ctx.runAction(api.myFunctions.get_one_itinerary, {
-        names: parsedResults[1],
-      }));
-      results.push(await ctx.runAction(api.myFunctions.get_one_itinerary, {
-        names: parsedResults[2],
+      results = (await ctx.runAction(api.myFunctions.get_one_itinerary, {
+        names: parsedResults,
       }));
 
       return results;
@@ -285,7 +285,7 @@ function formatListOfLists(lists: string[][]): string {
     return lists.map(subList => `[${subList.join(", ")}]`).join(", ");
 }
 
-  function parseItineraries(str: string): string[][] {
+  function parseItineraries(str: string): string[] {
     // Split by the "Itinerary" keyword to separate different itineraries
     console.log(str)
     const itineraryParts = str.split('Itinerary').slice(1);
@@ -301,7 +301,8 @@ function formatListOfLists(lists: string[][]): string {
         itineraries.push(items);
     });
 
-    return itineraries;
+    console.log(itineraries)
+    return itineraries.flat();
 }
   
 //   export const get_location_data = action({

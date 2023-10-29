@@ -77,7 +77,6 @@ const Description = styled.p``;
 // Sample data structure, you may replace this with your actual data fetching
 
 const testData = [
-    [
         {
             "category": "tourist_attraction",
             "day": "Day 1",
@@ -101,9 +100,7 @@ const testData = [
             "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=AcJnMuElkCBqtOm-AQugEbqMo98jppkLCEbBki_hiloS2puzXgGoQ3C8v0vHAh0KW73g8-58IoX3_sKtNM-vJTP2MvlB4ly-DuAUBuPWehKG9D1QOuxrzmM1EAQmAkA5xaOz6nLTv7zlfQtpGLjat2b56EVHkILqxehC_ddhxXea0FoKFRdk&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
             "name": "Rice To Riches",
             "time": "4:00 PM"
-        }
-    ],
-    [
+        },
         {
             "category": "restaurant",
             "day": "Day 2",
@@ -127,9 +124,7 @@ const testData = [
             "imageURL": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=AcJnMuG1hvZVpdNVSfVXEXClnDJcHZSLU_klp_FYnb6O4usvGF2hcxXLr2TaFemM9huE9URPxnUfP3e97a2WwLK4dMdm72c3gjN_iiRJw9xvLVYtK1vtUmnbwxenQuyBWLhGnrdrF5g0oIjnI-K_E4uPJobqMj-oUyzuuxRHgW0wmtkt9vxd&key=AIzaSyBG8-ZzBHlTA6e7WfcvUm1OZxXCNk7ErMU",
             "name": "Locanda Verde",
             "time": "3:00 PM"
-        }
-    ],
-    [
+        },
         {
             "category": "tourist_attraction",
             "day": "Day 3",
@@ -155,13 +150,11 @@ const testData = [
             "time": "4:00 PM"
         }
     ]
-]
-
 
 const Itinerary: React.FC<ItineraryProps> = ({ onNextStep, location, days, priceRange, acceptedCards, rejectedCards }) => {
 
     const [isLoading, setIsLoading] = React.useState(true);
-    const [eventList, setEventList] = React.useState<Event[][]>();
+    const [eventList, setEventList] = React.useState<Event[]>();
 
     const getItinerary = useAction(api.myFunctions.generate_itinerary);
     const title = useTypingEffect("✨ Your Adventure Starts Here ✨", 100);
@@ -208,8 +201,7 @@ const Itinerary: React.FC<ItineraryProps> = ({ onNextStep, location, days, price
                 <TimelineContainer style = {{width:'90%'}}>
                     <Title>{title}</Title>
                     <VerticalTimeline lineColor = '#3F7EA0' layout ='1-column-left'>
-                        {eventList?.map((day, index)=>(
-                            day.map((event, index)=>(
+                        {eventList?.map((event, index)=>(
                                 <VerticalTimelineElement
                                 key = {index}
                                 className="vertical-timeline-element--work"
@@ -228,7 +220,7 @@ const Itinerary: React.FC<ItineraryProps> = ({ onNextStep, location, days, price
                                     </div>
                                     <img src = {event.imageURL}  style={{width:'30%'}}/>
                                 </div>
-                            </VerticalTimelineElement>))))
+                            </VerticalTimelineElement>))
                             }                      
                         </VerticalTimeline>
                 </TimelineContainer>

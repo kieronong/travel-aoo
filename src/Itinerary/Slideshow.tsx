@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 
 // Define the prop types
 interface SlideshowProps {
-    eventList: Event[][],
+    eventList: Event[],
     location: string,
 }
 
@@ -83,12 +83,11 @@ const Title = styled.h1`
 
 
 const Slideshow: React.FC<SlideshowProps> = ({ eventList, location }) => {
-    const allEvents = eventList.flat()
     return (
         <CardContainer>
             <Title>Your Trip to {location}</Title>
-            {allEvents.map((event, index) => (
-                <SlideCard backgroundImage={event.imageURL} index={index} total={allEvents.length} key={index}/>
+            {eventList.map((event, index) => (
+                <SlideCard backgroundImage={event.imageURL} index={index} total={eventList.length} key={index}/>
             ))}
         </CardContainer>
     );
