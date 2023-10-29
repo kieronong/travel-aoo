@@ -19,6 +19,7 @@
     "convex": "^1.5.1",
     "formik": "^2.4.5",
     "formik-stepper": "^2.2.1",
+    "framer-motion": "^10.16.4",
     "google-map-react": "^2.2.1",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",

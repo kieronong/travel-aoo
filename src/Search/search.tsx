@@ -4,6 +4,8 @@ import './style.css';
 import Autosuggest from 'react-autosuggest';
 import { TypeAnimation } from 'react-type-animation';
 import Counter from './Counter/counter';
+import { motion } from "framer-motion";
+import hotAirBalloon from './../assets/air-hot-balloon.png'
 
 const validCities = ['Paris', 'San Francisco', 'Tokyo', 'Rome', 'Bali', 'Greece', 'New York', 'Spain']; // Define valid cities
 
@@ -31,6 +33,7 @@ class SearchBar extends Component {
   };
 
   handleDaysChange = (newValue) => {
+    console.log(this.state.days);
     this.setState({ days: newValue });
   };
 
@@ -117,6 +120,16 @@ class SearchBar extends Component {
       <div className='homepage'>
         <div className={`search-section ${this.state.showSearchModal  ? 'expanded' : ''}`}>
           <div className='header'>
+          <motion.img 
+            style={{ position: 'absolute', top: '200px', left: '100px' }}
+            width = '50'
+            height = '50'
+            src={hotAirBalloon}
+            animate={{ scale: 1.2 }}
+            transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
+            className="star-1 star"
+            alt="star 1"
+          />
         <TypeAnimation
           sequence={[
             // Same substring at the start will only be typed out once, initially
