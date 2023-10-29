@@ -1,11 +1,5 @@
 /* styles.css */
 
-
-/* Style for the search page container */
-.search-page {
-  position: relative; /* Relative positioning for child elements */
-}
-
 /* Style for the modal background overlay */
 .search-modal {
   position: fixed; /* Fixed positioning for overlay */
@@ -31,24 +25,27 @@
   z-index: 999; /* Position this just below the modal */
 }
 
-
-/* Style for the search bar container */
-.search-bar-container {
-    text-align: center;
-    margin: 20px auto;
-    max-width: 600px;
-    padding: 20px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.search-queries {
+  position: fixed; /* Fixed positioning for overlay */
+  top: 30%; /* Center vertically */
+  left: 25%;
+  width: 50%;
+  background-color: #87D7FF; 
+  padding: 15px;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  z-index: 1000;
+  border-radius: 10px;
+  text-align: center;  
+}
   
   /* Style for preset locations */
   .preset-locations {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
+    position: fixed;
+    top: 400px;
   }
 
   .wrapper {
@@ -69,6 +66,7 @@
     color: #fff; /* Text color */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better visibility */
     font-size: 18px; /* Font size for the location name */
+    border-radius: 10px;
   }
   
   /* Style for labels */
@@ -81,6 +79,92 @@
     justify-content: center;
     margin-bottom: 10px;
     padding:5px;
+    width: 500px;
     }
-  
-  
+
+/* Style for the days and price fields */
+.search-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 10px;
+  width: 50%; /* Take up the middle 50% of the container's width */
+  margin: 0 auto; /* Horizontally center the container within the parent */
+  padding-bottom: 10px;
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+}
+
+/* Style for the Autosuggest container */
+.react-autosuggest__container {
+  position: relative; /* Position relative is required for absolute positioning of the suggestions */
+}
+
+/* Style for the Autosuggest suggestions container */
+.react-autosuggest__suggestions-container {
+  position: absolute; /* Position suggestions absolutely to overlap other elements */
+  z-index: 1000; /* A high z-index value to place the suggestions on top */
+  width: 100%; /* Make sure the suggestions container spans the full width */
+}
+
+/* Style for the Autosuggest suggestions list */
+.react-autosuggest__suggestions-list {
+  list-style: none; /* Remove default list styles */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+}
+
+/* Style for individual suggestions in the list */
+.react-autosuggest__suggestion {
+  padding: 10px;
+  background-color: #ccc; /* Background color for suggestions */
+  color: #000;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Add a smooth transition effect */
+}
+
+/* Highlighted suggestion */
+.react-autosuggest__suggestion--highlighted {
+  background-color: #f0f0f0; /* Highlighted suggestion background color */
+}
+
+/* Style for the search button */
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Style for input fields and select */
+input {
+  width: 95%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+select {
+  width: 25%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#days {
+  width: 150px; /* Adjust the width of the slider track */
+  height: 5px; /* Adjust the height of the slider track */
+  border: none; /* Remove the border of the slider track */
+  background-color: #ccc; /* Color of the slider track */
+  border-radius: 5px; /* Rounded edges for the slider track */
+  outline: none; /* Remove the default focus outline */
+  transition: background-color 0.3s; /* Add a smooth transition effect */
+}
